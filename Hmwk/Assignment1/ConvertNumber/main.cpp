@@ -27,44 +27,49 @@ char conv(int);//Convert a 1-digit number to char
 //Execution begins here
 int main(int argc, char** argv) {
     //declare variables
-    int choice;
-    int num;
-    string str;
+    int choice;//choice to convert
+    string str;//number user want to convert for hexadecimal
+    int num;//number user want to convert for other 3 types
     do {
-        cout<<"   This program can convert a number between "<<endl;
-        cout<<"   Binary, octonary, decimal, and hexadecimal"<<endl;
-        cout<<"  Once you input a number with one of four type"<<endl;
-        cout<<" We can convert this number to other three type"<<endl;
-        cout<<"Which type of number you would like to input?"<<endl;
-        cout<<"1.Binary"<<endl;
-        cout<<"2.Octonary"<<endl;
-        cout<<"3.Decimal"<<endl;
-        cout<<"4.Hexadecimal"<<endl;
-        cin>>choice;
-    }while(choice<1||choice>4);
-    if(choice>=1&&choice<=3) {
-        cout<<"Input the number you would like to input"<<endl;
-        cin>>num;
-    } else {
-        cout<<"Input the number you would like to input"<<endl;
-        cin>>str;
-    }
-    switch(choice) {
-        case 1: fromBin(num); break;
-        case 2: fromOct(num); break;
-        case 3: fromDec(num); break;
-        case 4: fromHex(str); break;
-        default:;
-    }
-    cout<<endl<<endl;
-    cout<<"For test:"<<endl;
-    fromBin(1101011);
-    cout<<endl<<endl;
-    fromOct(234);
-    cout<<endl<<endl;
-    fromDec(987);
-    cout<<endl<<endl;
-    fromHex("AB");
+        //Prompt user for choice of convert
+        do {
+            cout<<"   This program can convert a number between "<<endl;
+            cout<<"   Binary, octonary, decimal, and hexadecimal"<<endl;
+            cout<<"  Once you input a number with one of four type"<<endl;
+            cout<<" We can convert this number to other three type"<<endl;
+            cout<<"  Which type of number you would like to input?"<<endl;
+            cout<<"1.Binary"<<endl;
+            cout<<"2.Octonary"<<endl;
+            cout<<"3.Decimal"<<endl;
+            cout<<"4.Hexadecimal"<<endl;
+            cout<<"5.Exit the program"<<endl;
+            cin>>choice;
+            if(choice<1||choice>5)
+                cout<<"Invalid input"<<endl<<endl;
+        }while(choice<1||choice>5);
+        //Prompt user for number
+        if(choice!=5) {
+            if(choice>=1&&choice<=3) {
+                cout<<"Input the number you would like to input"<<endl;
+                cin>>num;
+            } else if(choice==4){
+                cout<<"Input the number you would like to input"<<endl;
+                cin>>str;
+            }
+            switch(choice) {
+                case 1: fromBin(num); break;
+                case 2: fromOct(num); break;
+                case 3: fromDec(num); break;
+                case 4: fromHex(str); break;
+                default:;
+            }
+            cout<<"Press Enter to continue"<<endl;
+            cin.ignore();
+            cin.ignore();
+        } else {
+            cout<<"This is the end of the program"<<endl;
+        }
+    }while(choice!=5);
     //Exit stage rights
     return 0;
 }
@@ -104,14 +109,12 @@ void fromBin(int num) {
 //decimal to binary
 void decToBi(int dec) {
     vector<int> sep;
-    int bin=0;
     string res="";//result
     while(dec!=0) {
         sep.push_back(dec%2);
         dec/=2;
     }
-    for(int i=0,mut=1;i<sep.size();i++,mut*=10){
-        bin+=mut*sep[i];
+    for(int i=0;i<sep.size();i++){
         res=static_cast<char>(sep[i]+48)+res;
     }
     cout<<"The number you input in binary is "<<res<<endl;
@@ -120,15 +123,15 @@ void decToBi(int dec) {
 //decimal to octonary
 void decToOc(int dec) {
     vector<int> sep;
-    int oct=0;
+    string res="";//result
     while(dec!=0) {
         sep.push_back(dec%8);
         dec/=8;
     }
-    for(int i=0,mut=1;i<sep.size();i++,mut*=10){
-        oct+=mut*sep[i];
+    for(int i=0;i<sep.size();i++){
+        res=static_cast<char>(sep[i]+48)+res;
     }
-    cout<<"The number you input in octal is "<<oct<<endl;
+    cout<<"The number you input in octonary is "<<res<<endl;
 }
 
 //decimal to hexadecimal
