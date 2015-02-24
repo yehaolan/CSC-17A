@@ -105,14 +105,16 @@ void fromBin(int num) {
 void decToBi(int dec) {
     vector<int> sep;
     int bin=0;
+    string res="";//result
     while(dec!=0) {
         sep.push_back(dec%2);
         dec/=2;
     }
     for(int i=0,mut=1;i<sep.size();i++,mut*=10){
         bin+=mut*sep[i];
+        res=static_cast<char>(sep[i]+48)+res;
     }
-    cout<<"The number you input in binary is "<<bin<<endl;
+    cout<<"The number you input in binary is "<<res<<endl;
 }
 
 //decimal to octonary
