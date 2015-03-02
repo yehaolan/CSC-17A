@@ -31,6 +31,7 @@ int main(int argc, char** argv) {
     float tst;//Total Sales Tax
     //Prompt user for month
     do {
+        cout<<"Input the name of month(Such as March)"<<endl;
         cout<<"Month: ";
         cin>>month;
         if(month!="January"&&month!="February"&&month!="March"&&month!="April"&&
@@ -54,10 +55,10 @@ int main(int argc, char** argv) {
     sst=static_cast<float>(sales)*SALETAX/CONVPT;
     tst=cst+sst;
     cout<<setprecision(2)<<fixed;
-    cout<<"Sales:               $"<<sales<<endl;
-    cout<<"County Sales Tax:    $"<<cst<<endl;
-    cout<<"State Sales Tax:     $"<<sst<<endl;
-    cout<<"Total Sales Tax:     $"<<tst<<endl;
+    cout<<"Sales:               $"<<setw(10)<<sales<<endl;
+    cout<<"County Sales Tax:    $"<<setw(10)<<cst<<endl;
+    cout<<"State Sales Tax:     $"<<setw(10)<<sst<<endl;
+    cout<<"Total Sales Tax:     $"<<setw(10)<<tst<<endl;
     //Exit stage right
     return 0;
 }
