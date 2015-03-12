@@ -281,6 +281,7 @@ void pg7() {
                                 "Pike, Gordon", "Holland, Beth" } ;
     //Prompt user for string that they would like to search
     cout<<"Input a full name"<<endl;
+    cin.ignore();
     getline(cin,str);
     //Sort the array
     markSrt(names,SIZE);
