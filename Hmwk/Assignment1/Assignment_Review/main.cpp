@@ -39,13 +39,14 @@ int main(int argc, char** argv) {
     char ans;
     do {    
         cout<<"**************Program Menu**************"<<endl;
-        cout<<"1.Miles Per Gallon"<<endl;
-        cout<<"2.Miles Per Gallon2"<<endl;
-        cout<<"3.Inflation rate"<<endl;
-        cout<<"4.Gravitational attractive force"<<endl;
-        cout<<"5.Clothing size"<<endl;
-        cout<<"6.New House After-tax cost"<<endl;
-        cout<<"7.Caloric Requirement"<<endl;
+        cout<<"**************Gaddis 7thEd**************"<<endl;
+        cout<<"1.Monthly Sales Tax"<<endl;
+        cout<<"2.Property Tax"<<endl;
+        cout<<"3.Software Sales"<<endl;
+        cout<<"4.Population"<<endl;
+        cout<<"5.Celsius Temperature Table"<<endl;
+        cout<<"6.Number Analysis Program"<<endl;
+        cout<<"7.Binary String Search"<<endl;
         cout<<"0.Exit the program"<<endl;
         //select program
         do {
