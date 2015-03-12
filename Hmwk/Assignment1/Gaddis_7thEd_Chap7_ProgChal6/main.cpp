@@ -2,7 +2,7 @@
  * File:   main.cpp
  * Author: Haolan Ye(Benjamin)
  * Created on February 20, 2015, 7:42 AM
- * Purpose: Homework assignment1 (Gaddis_7thEd_Chap6_ProgChal7)
+ * Purpose: Homework assignment1 (Gaddis_7thEd_Chap7_ProgChal6)
  */
 
 //System Libraries
