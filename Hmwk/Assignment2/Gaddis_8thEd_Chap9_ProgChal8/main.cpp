@@ -15,6 +15,8 @@ using namespace std;
 
 //Function prototypes
 void mode(int *,int,int*);//get the mode from the array
+float mean(int *,int);
+float median(int *,int);
 
 //Execution begins here
 int main(int argc, char** argv) {
@@ -40,6 +42,8 @@ int main(int argc, char** argv) {
     }
     //Get the mode
     mode(numArr,size,modeArr);
+    cout<<"The mean of these number is "<<mean(numArr,size)<<endl;
+    cout<<"The median of these number is "<<median(numArr,size)<<endl;
     
     delete [] numArr;
     delete [] modeArr;
@@ -101,4 +105,39 @@ void mode(int *a,int size,int *m) {
         cout<<endl;
         cout<<"Frequency of mode: "<<*(m+1)<<endl;
     }
+}
+
+float mean(int *a,int size) {
+    //declare value average in float
+    float ave=0;
+    //sum the array
+    for(int i=0;i<size;i++) {
+        ave+=*(a+i);
+    }
+    //divided by size of array
+    ave/=size;
+    return ave;
+}
+
+float median(int *a,int size) {
+    //mark sort with dynamic array
+    for(int i=0;i<size-1;i++) {
+        for(int j=i+1;j<size;j++) {
+            if(*(a+i)>*(a+j)) {
+                int temp=*(a+i);
+                *(a+i)=*(a+j);
+                *(a+j)=temp;
+            }
+        }
+    }
+    if(size%2==1) {
+        return *(a+size/2);
+    } else {
+        //declare variables
+        float res;//result
+        res=*(a+size/2-1)+*(a+size/2);
+        res/=2;
+        return res;
+    }
+    
 }
