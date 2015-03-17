@@ -14,7 +14,7 @@ using namespace std;
 //Global Constants
 
 //Function prototypes
-void mode(int *,int,int*);//get the mode from the array
+int *mode(int *,int);//get the mode from the array
 float mean(int *,int);
 float median(int *,int);
 
@@ -31,8 +31,6 @@ int main(int argc, char** argv) {
     }while(size<2);
     //dynamic allocate array
     int *numArr=new int[size];//the array from user
-    int *modeArr=new int[size];//In this array, first element is number of mode
-    //second is frequency of mode, the rest is the mode number
     
     //Prompt user to input the number for the array
     cout<<"Input the numbers for the array"<<endl;
@@ -40,11 +38,24 @@ int main(int argc, char** argv) {
         cout<<"#"<<(i+1)<<": ";
         cin>>*(numArr+i);
     }
-    //Get the mode
-    mode(numArr,size,modeArr);
+    //get the mode array
+    int *modeArr=mode(numArr,size);//In this array, first element is number of mode
+    //second is frequency of mode, the rest is the mode number
+    
     cout<<"The mean of these number is "<<mean(numArr,size)<<endl;
     cout<<"The median of these number is "<<median(numArr,size)<<endl;
-    
+    //Output the results
+    if(*(modeArr+1)==1) { //when the frequency of mode is 1, means no mode
+        cout<<"No mode in these numbers"<<endl;
+    } else {
+        cout<<"Number of mode in the array: "<<*modeArr<<endl;
+        cout<<"Mode: ";
+        for(int i=1;i<=*modeArr;i++) {
+            cout<<*(modeArr+i+1)<<" ";
+        }
+        cout<<endl;
+        cout<<"Frequency of mode: "<<*(modeArr+1)<<endl;
+    }
     delete [] numArr;
     delete [] modeArr;
     numArr=0;
@@ -53,8 +64,9 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-void mode(int *a,int size,int *m) {
+int *mode(int *a,int size) {
     //declare variables
+    int *m=new int[size];
     int num=*a;//initialize num to first number in array
     int count=0;//count the frequence
     *m=*a;
@@ -93,18 +105,7 @@ void mode(int *a,int size,int *m) {
             count=1;//count assigned to 1
         }
     }
-    //Output the results
-    if(*(m+1)==1) { //when the frequency of mode is 1, means no mode
-        cout<<"No mode in these numbers"<<endl;
-    } else {
-        cout<<"Number of mode in the array: "<<*m<<endl;
-        cout<<"Mode: ";
-        for(int i=1;i<=*m;i++) {
-            cout<<*(m+i+1)<<" ";
-        }
-        cout<<endl;
-        cout<<"Frequency of mode: "<<*(m+1)<<endl;
-    }
+    return m;
 }
 
 float mean(int *a,int size) {
