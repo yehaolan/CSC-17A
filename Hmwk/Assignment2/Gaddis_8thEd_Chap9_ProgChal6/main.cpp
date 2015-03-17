@@ -14,9 +14,9 @@ using namespace std;
 //Global Constants
 
 //Function prototypes
-void arrSelectSort(int *[], int);
-void showArray(int *, int);
-void showArrPtr(int *[], int);
+void seltSrt(int *[], int);
+void showAry(int *, int);
+void pnArPtr(int *[], int);
 
 
 //Execution begins here
@@ -47,16 +47,16 @@ int main(int argc, char** argv) {
         arrPtr[i] = &(*(arr+i));
 
     // Sort the elements of the array of pointers.
-    arrSelectSort(arrPtr, size);
+    seltSrt(arrPtr, size);
 
     // Display the array using the array of pointers. This
     // will display them in sorted order.
     cout << "The array, sorted in ascending order are: \n";
-    showArrPtr(arrPtr, size);
+    pnArPtr(arrPtr, size);
 
     // Display the array in their original order.
     cout << "The array, in their original order are: \n";
-    showArray(arr, size);
+    showAry(arr, size);
     //delete the dynamic array
     delete [] arr;
     arr=0;
@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
 }
 
 //sort the pointer array
-void arrSelectSort(int *arrPtr[], int size) {
+void seltSrt(int *arrPtr[], int size) {
     int strt, mxIndex; 
     int *maxElem;
     for (strt = 0; strt < (size - 1); strt++) {
@@ -82,14 +82,14 @@ void arrSelectSort(int *arrPtr[], int size) {
 }
 
 //Output the original array
-void showArray(int *arr, int size)
+void showAry(int *arr, int size)
 {
     for (int i=0;i<size;i++)
         cout<<*(arr+i) << " ";
     cout << endl;
 }
 //Output the sorted array
-void showArrPtr(int *arr[], int size) {
+void pnArPtr(int *arr[], int size) {
     for (int i= 0;i<size;i++) 
         cout << *(*(arr+i)) << " ";
     cout << endl; 

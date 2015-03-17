@@ -2,7 +2,7 @@
  * File:   main.cpp
  * Author: Haolan Ye(Benjamin)
  * Created on March 10, 2015, 09:50 AM
- * Purpose:Homework assignment1 (Gaddis_8thEd_Chap9_ProgChal8)
+ * Purpose:Homework assignment2 (Gaddis_8thEd_Chap9_ProgChal8)
  */
 
 //System libraries
@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     
     cout<<"The mean of these number is "<<mean(numArr,size)<<endl;
     cout<<"The median of these number is "<<median(numArr,size)<<endl;
-    //Output the results
+    //Output the mode
     if(*(modeArr+1)==1) { //when the frequency of mode is 1, means no mode
         cout<<"No mode in these numbers"<<endl;
     } else {
@@ -81,11 +81,7 @@ int *mode(int *a,int size) {
             }
         }
     }
-    //Output the sorted array
-    for(int i=0;i<size;i++) {
-        cout<<*(a+i)<<" ";
-    }
-    cout<<endl<<endl;
+    cout<<endl;
     //compare the numbers in the array
     for(int i=0;i<=size;i++) {
         //when this number equal to previous number
