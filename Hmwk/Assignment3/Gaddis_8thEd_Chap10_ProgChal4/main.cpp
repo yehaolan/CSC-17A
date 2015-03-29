@@ -7,8 +7,8 @@
 
 //System Libraries
 #include <iostream>
-#include <iomanip>
 #include <vector>
+#include <string>
 using namespace std;
 
 //User Libraries
@@ -16,43 +16,80 @@ using namespace std;
 //Global Constants
 
 //Function Prototypes
-int wordNum(char *);
+int wordNum(char *,vector<int> &);
+int wordNum(string,vector<int> &);
 
 //Execution begins here
 int main(int argc, char** argv) {
-    char *arr=new char[1000];
-    cout<<"Input sentence: ";
-    cin.ignore();
-    cin.getline(arr,1000);
+    //char *sen=new char[1000];//sentence with c-string
+    string sen;  //sentence with string
+    float ave=0;
+    vector<int> ltrNum;
     
-    cout<<"You input: ";
-    cout<<"The length is "<<strlen(arr)<<endl;
-    cout<<"The number of words is "<<wordNum(arr)<<endl;
-    delete [] arr;
-    arr=0;
+    //prompt user for sentence
+    cout<<"Input sentence: ";
+    //cin.getline(sen,1000);
+    getline(cin,sen);
+    
+    //Output the result
+    //cout<<"(With c-string) The number of words is "<<wordNum(sen,ltrNum)<<endl;
+    cout<<"(With string) The number of words is "<<wordNum(sen,ltrNum)<<endl;
+    
+    for(int i=0;i<ltrNum.size();i++) {
+        ave+=ltrNum.at(i);
+        //cout<<ltrNum.at(i)<<" ";
+    }
+    ave=ave/ltrNum.size();
+    cout<<"The average number of letters in each word is "<<ave<<endl;
+    //delete [] sen;
+    //sen=0;
+    
     //Exit stage right
     return 0;
 }
 
-int wordNum(char *arr) {
-    int wrdcnt=0;//count of the words
+int wordNum(char *arr,vector<int> &ltrNum) {
+    int wrdCnt=0;//count of the words
+    int ltrCnt=0;//count of number of letters in the word
     bool isWord=false;
-    for(int i=0;i<=strlen(arr);i++) {
-        if(!isspace(arr[i]))
+    for(int i=0;i<strlen(arr);i++) {
+        if(!isspace(arr[i])) {
             isWord=true;
+            ltrCnt++;
+        }
         if(isspace(arr[i])&&isWord) {
-            wrdcnt++;
-            cout<<"+1 in it"<<endl;
+            wrdCnt++;
             isWord=false;
+            ltrNum.push_back(ltrCnt);
+            ltrCnt=0;
         }
     }
-    if(!isspace(arr[strlen(arr)])) {
-        cout<<"+1 in the end(1)"<<endl;
-        wrdcnt++;
-    } 
-    if(isalnum(arr[strlen(arr)])) {
-        cout<<"+1 in the end(2)"<<endl;
-        wrdcnt++;
+    if(!isspace(arr[strlen(arr)-1])) {
+        wrdCnt++; 
+        ltrNum.push_back(ltrCnt);
+    }
+    return wrdCnt;
+}
+
+int wordNum(string str,vector<int> &ltrNum) {
+    int wrdcnt=0;//count of the words
+    int ltrCnt=0;//count of number of letters in the word
+    bool isWord=false;
+    for(int i=0;i<str.length();i++) {
+        if(!isspace(str.at(i))) {
+            isWord=true;
+            ltrCnt++;
+        }
+        if(isspace(str.at(i))&&isWord) {
+            wrdcnt++;
+            isWord=false;
+            ltrNum.push_back(ltrCnt);
+            ltrCnt=0;
+        }
+    }
+    if(!isspace(str.at(str.length()-1))) {
+        wrdcnt++;    
+        ltrNum.push_back(ltrCnt);
     }
     return wrdcnt;
 }
