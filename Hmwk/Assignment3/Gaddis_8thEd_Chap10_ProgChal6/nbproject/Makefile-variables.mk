@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-MacOSX
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-MacOSX
-CND_ARTIFACT_NAME_Debug=test
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-MacOSX/test
+CND_ARTIFACT_NAME_Debug=gaddis_8thed_chap10_progchal6
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-MacOSX/gaddis_8thed_chap10_progchal6
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-MacOSX/package
-CND_PACKAGE_NAME_Debug=test.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-MacOSX/package/test.tar
+CND_PACKAGE_NAME_Debug=gaddis8thedchap10progchal6.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-MacOSX/package/gaddis8thedchap10progchal6.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-MacOSX
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-MacOSX
-CND_ARTIFACT_NAME_Release=test
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/test
+CND_ARTIFACT_NAME_Release=gaddis_8thed_chap10_progchal6
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/gaddis_8thed_chap10_progchal6
 CND_PACKAGE_DIR_Release=dist/Release/GNU-MacOSX/package
-CND_PACKAGE_NAME_Release=test.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/test.tar
+CND_PACKAGE_NAME_Release=gaddis8thedchap10progchal6.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/gaddis8thedchap10progchal6.tar
 #
 # include compiler specific variables
 #

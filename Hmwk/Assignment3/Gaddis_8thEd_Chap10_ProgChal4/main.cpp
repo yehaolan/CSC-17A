@@ -1,7 +1,7 @@
 /* 
  * File:   main.cpp
  * Author: Haolan Ye(Benjamin)
- * Created on March 25, 2015, 3:35 PM
+ * Created on March 29, 2015, 11:35 AM
  * Purpose: 10.4 Number letter of words
  */
 
@@ -26,6 +26,10 @@ int main(int argc, char** argv) {
     float ave=0;//The average number of letters in each word
     vector<int> ltrNum;//vector to store the number of letters of each word
     
+    cout<<"Welcome to Word Counter"<<endl;
+    cout<<"Press Enter to continue..."<<endl;
+    cin.ignore();
+    
     //prompt user for sentence
     cout<<"Input sentence: ";
     cin.getline(sen,1000);
@@ -34,10 +38,12 @@ int main(int argc, char** argv) {
     //Output the result
     cout<<"The number of words is "<<wordNum(sen,ltrNum)<<endl;
     
+    //calculate the number of letter
     for(int i=0;i<ltrNum.size();i++) {
         ave+=ltrNum.at(i);
         //cout<<ltrNum.at(i)<<" ";
     }
+    //get the average 
     ave=ave/ltrNum.size();
     cout<<"The average number of letters in each word is "<<ave<<endl;
     delete [] sen;
