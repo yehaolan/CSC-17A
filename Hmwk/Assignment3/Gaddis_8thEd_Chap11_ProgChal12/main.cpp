@@ -42,6 +42,7 @@ int main(int argc, char** argv) {
     //dynamic allocate memory for all student
     Student *stud=new Student[stuNum];
     
+    //prompt user input data
     for(int i=0;i<stuNum;i++) {
         cout<<endl<<"Student #"<<(i+1)<<": "<<endl;
         stud[i]=getData(tstNum);
@@ -54,7 +55,7 @@ int main(int argc, char** argv) {
     }
     
     //deallocate memory
-    delete stud;
+    delete [] stud;
     stud=0;
     
     //Exit stage right
@@ -109,7 +110,9 @@ Student getData(int tstNum) {
     } else {
         stu.grade='F';
     }
-    delete stu.score;
+    //deallocate memory
+    delete [] stu.score;
+    //return the structure
     return stu;
 }
 
