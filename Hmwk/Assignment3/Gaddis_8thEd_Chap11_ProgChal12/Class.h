@@ -8,7 +8,7 @@
 #ifndef CLASS_H
 #define	CLASS_H
 
-struct Class {
+struct Student {
     string name;//student name
     string id;//student id
     int *score;//pointer to an array of scores

@@ -17,7 +17,8 @@ using namespace std;
 //Global Constants
 
 //Function Prototypes
-void pntScro(Class);
+Student getData(int);
+void pntScro(Student);
 
 //Execution begins here
 int main(int argc, char** argv) {
@@ -38,71 +39,81 @@ int main(int argc, char** argv) {
             cout<<"Invalid input"<<endl;
     } while(stuNum<1);
     
-    //dynamic allocate memory
-    Class *stud=new Class[stuNum];
+    //dynamic allocate memory for all student
+    Student *stud=new Student[stuNum];
     
     for(int i=0;i<stuNum;i++) {
-        stud[i].score=new int[tstNum];//allocate the test array
-        bool valid;
         cout<<endl<<"Student #"<<(i+1)<<": "<<endl;
-        
-        //get the name
-        cout<<"Name"<<": ";
-        cin.ignore();
-        getline(cin,stud[i].name);
-        
-        //get the id number
-        do {
-            valid=true;
-            cout<<"Student ID: ";
-            cin>>stud[i].id;
-            //check the phone number
-            for(int i=0;i<stud[i].id.length();i++) {
-                if(stud[i].id.at(i)<48||stud[i].id.at(i)>57)
-                    valid=false;
-            }
-            if(!valid)
-                cout<<"Invalid input"<<endl;
-        }while(!valid);
-        
-        //prompt user for all the test score for each student and add all test score
-        for(int j=0;j<tstNum;j++) {
-            do {
-                cout<<"Test #"<<(j+1)<<": ";
-                cin>>stud[i].score[j];
-                if(stud[i].score[j]<0||stud[i].score[j]>100)
-                    cout<<"Invalid input"<<endl;
-            } while(stud[i].score[j]<0||stud[i].score[j]>100);
-            stud[i].ave+=stud[i].score[j];
-        }
-        //calculate the average
-        stud[i].ave=stud[i].ave/static_cast<float>(tstNum);
-        //Grade
-        if(stud[i].ave>=91) {
-            stud[i].grade='A';
-        } else if(stud[i].ave>=81) {
-            stud[i].grade='B';
-        } else if(stud[i].ave>=71) {
-            stud[i].grade='C';
-        } else if(stud[i].ave>=61) {
-            stud[i].grade='D';
-        } else {
-            stud[i].grade='F';
-        }
-        
+        stud[i]=getData(tstNum);
     }
     
+    //output the result
+    for(int i=0;i<stuNum;i++) {
+        cout<<"Student #"<<(i+1)<<": ";
+        pntScro(stud[i]);
+    }
     
     //deallocate memory
-    for(int i=0;i<stuNum;i++) {
-        delete stud[i].score;
-        stud[i].score=0;
-    }
     delete stud;
     stud=0;
+    
     //Exit stage right
     return 0;
 }
-void pntScro(Class s) {
-    cout<<""
+
+Student getData(int tstNum) {
+    Student stu;
+    stu.score=new int[tstNum];
+    stu.ave=0;
+    bool valid;
+    //get the name
+    cout<<"Name"<<": ";
+    cin.ignore();
+    getline(cin,stu.name);
+
+    //get the id number
+    do {
+        valid=true;
+        cout<<"Student ID: ";
+        cin>>stu.id;
+        //check the id number
+        for(int j=0;j<stu.id.length();j++) {
+            if(stu.id.at(j)<48||stu.id.at(j)>57)
+                valid=false;
+        }
+        if(!valid)
+            cout<<"Invalid input"<<endl;
+    }while(!valid);
+
+    //prompt user for all the test score for each student and add all test score
+    for(int j=0;j<tstNum;j++) {
+        do {
+            cout<<"Test #"<<(j+1)<<": ";
+            cin>>stu.score[j];
+            if(stu.score[j]<0||stu.score[j]>100)
+                cout<<"Invalid input"<<endl;
+        } while(stu.score[j]<0||stu.score[j]>100);
+        stu.ave+=stu.score[j];
+    }
+    //calculate the average
+    stu.ave=stu.ave/static_cast<float>(tstNum);
+    //Grade
+    if(stu.ave>=91) {
+        stu.grade='A';
+    } else if(stu.ave>=81) {
+        stu.grade='B';
+    } else if(stu.ave>=71) {
+        stu.grade='C';
+    } else if(stu.ave>=61) {
+        stu.grade='D';
+    } else {
+        stu.grade='F';
+    }
+    delete stu.score;
+    return stu;
+}
+
+void pntScro(Student s) {
+    cout<<"Name: "<<s.name<<"  ID: "<<s.id<<endl;
+    cout<<"         Average test Score: "<<s.ave<<"  Course grade: "<<s.grade<<endl;
 }
