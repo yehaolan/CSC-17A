@@ -21,6 +21,7 @@ using namespace std;
 Student *filStu(int);
 void prntStu(Student *,int);
 void wrtStu(char *,Student *,int);
+void wrtStu1(char *,Student *,int);
 Student *readStu(char *,int);
 
 //Execution begins here
@@ -31,19 +32,25 @@ int main(int argc, char** argv) {
     int nStu=36;
     Student *stu=filStu(nStu);
     //write to a file all student in binary form
-    char fn[]="dat.dat";
+    char fn[]="data.dat";
     wrtStu(fn,stu,nStu);
     //print out student record
     cout<<"Size of a student record = "<<sizeof(Student)<<endl;
     cout<<"Size of all student record = "<<sizeof(stu)<<endl;
     prntStu(stu,nStu);
+    //randomly choose a student
+    int rStudent=rand()%nStu+1;
+    //print the random student
+    cout<<endl<<"Read back the "<<rStudent<<" st/nd/rd/th"<<endl;
     //find the 35th student
     Student *one=readStu(fn,35);
     //print 35th student
-    
+    prntStu(one,1);
+    wrtStu1(fn,one,nStu);
     //deallocate memory
     delete [] stu;
-    delete [] one;
+    delete one;
+    
     stu=one=0;
     //Exit stage right
     return 0;
@@ -52,14 +59,15 @@ int main(int argc, char** argv) {
 Student *readStu(char *fn,int rec) {
     //open file for binary
     fstream in;
-    in.open(fn,ios::in|ios::binary);
+    in.open(fn,ios::in|ios::out|ios::binary);
     //allocate memory for 1 student
-    Student *one;
+    Student *one=new Student;
+    cout<<"Where pointer is "<<one<<endl;
+    long position=(rec-1)*sizeof(Student);
     //position pointer
-    in.seekg((rec-1)*sizeof(Student),ios::beg);
+    in.seekg(position,ios::beg);
     //read to file
     in.read(reinterpret_cast<char *>(one),sizeof(Student)*rec);
-    
     //close the file
     in.close();
     return one;
@@ -75,9 +83,23 @@ void wrtStu(char *fn,Student *a,int n) {
     out.close();
 }
 
+void wrtStu1(char *fn,Student *a,int n) {
+    //open file for binary
+    fstream out;
+    out.open(fn,ios::out|ios::binary);
+    //write to file
+    out.write(reinterpret_cast<char *>(a[n-1]),sizeof(Student));
+    //close the file
+    out.close();
+}
+
 void prntStu(Student *a,int n) {
+    //open file for binary
+    fstream out;
+    
     //output results
     for(int rec=0;rec<n;rec++){
+        cout<<"Student "<<(rec+1)<<"  ";
         cout<<"Student ID = "<<a[rec].sid<<" ";
         cout<<"Score = "<<a[rec].score<<" ";
         cout<<"Grade = "<<a[rec].grade<<endl;
@@ -98,3 +120,4 @@ Student *filStu(int n) {
     //return the records
     return csc17a;
 }
+
