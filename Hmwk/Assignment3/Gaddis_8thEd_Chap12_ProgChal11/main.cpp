@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <ctime>
 #include <string>
 using namespace std;
 
@@ -22,10 +23,14 @@ Sales *filDiv(int);
 
 //Execution begins here
 int main(int argc, char** argv) {
-    fstream out;
-    out.open("Data.dat",ios::out|ios::binary);
+    //set seed for random number
+    srand(static_cast<unsigned int>(time(0)));
+    fstream out;//output file object
+    //open file
+    out.open("Info.txt",ios::out|ios::binary);
     //allocate memory
     Sales *div=filDiv(16);
+    Sales *res=new Sales[16];
     //prompt user for each quarter sales
     for(int i=0;i<16;i++) {
         do {
@@ -34,18 +39,32 @@ int main(int argc, char** argv) {
             if(div[i].qrtSale<0)
                 cout<<"Invalid input"<<endl;
         } while(div[i].qrtSale<0);
+        
+        //div[i].qrtSale=rand()%90+10; //random get the quarter sales
+        
     }
     //write into file
     if(!out.fail()) {
-        out.write()
+        out.write(reinterpret_cast<char *>(div),sizeof(Sales)*16);
     }
+    out.close();
+    fstream in;//input file object
+    in.open("Info.txt",ios::in|ios::binary);//open file
+    if(!in.fail()) {
+        in.read(reinterpret_cast<char *>(res),sizeof(Sales)*16);
+    }
+    //output the quarter sales 
+    cout<<endl;
     for(int i=0;i<16;i++) {
-        cout<<div[i].name<<" ";
-        if(i%4==3) cout<<endl;
+        cout<<res[i].name<<"(quarter "<<res[i].quarter<<"): ";
+        cout<<res[i].qrtSale<<endl;
     }
-    out.close;
+    
+    in.close();
     //deallocate memory
     delete [] div;
+    delete [] res;
+    res=0;
     div=0;
     //Exit stage right
     return 0;

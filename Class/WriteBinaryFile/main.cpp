@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     cout<<endl<<"Read back the "<<rStudent<<" st/nd/rd/th student in the file"<<endl;
     Student *one=readStu(fn,rStudent);
     //Print the random student
-    prntStu1(one,rStudent);
+    prntStu(one,nStudents);
     //Write this to a random position
     //rStudent=rand()%nStudents+1;
     //cout<<"The random position written = "<<rStudent<<endl;
