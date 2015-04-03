@@ -2,7 +2,7 @@
  * File:   main.cpp
  * Author: Haolan Ye (Benjamin)
  * Created on April 2, 2015, 12:49 PM
- * Purpose: 12.7 File decryption filter
+ * Purpose: 12.7 Sentence filter
  */
 
 //system libraries
