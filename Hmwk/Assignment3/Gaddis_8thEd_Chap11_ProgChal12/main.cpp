@@ -2,7 +2,7 @@
  * File:   main.cpp
  * Author: Haolan Ye(Benjamin)
  * Created on March 31, 2015, 11:35 PM
- * Purpose: 10.12 Course grade
+ * Purpose: 11.12 Course grade
  */
 
 //System Libraries

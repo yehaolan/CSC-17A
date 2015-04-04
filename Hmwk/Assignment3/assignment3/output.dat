@@ -1,0 +1,1 @@
+Sometimes you will need to open one file for input and another file for output.Filters read the input of one file, changing the data in some fashion, and write it out to a second file.

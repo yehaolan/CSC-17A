@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <ctime>
 using namespace std;
 
 //User Libraries
@@ -23,6 +24,7 @@ int *filArr(int);
 //Execution begins here
 int main(int argc, char** argv) {
     //set seed for random number
+    srand(static_cast<unsigned int>(time(0)));
     int size;
     string fileN;//file name
     do {
