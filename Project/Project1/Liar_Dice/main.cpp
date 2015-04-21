@@ -20,13 +20,14 @@ using namespace std;
 Player *cretPyr(int);//create player and roll dice
 int *rolDice(int);//roll 5 dices
 void dspDice(Player);//display dice of a player
+void bidP1(bool &,Player);
 
 //Execution begins here
 int main(int argc, char** argv) {
     //set seed for rolling dice
     srand(static_cast<unsigned int>(time(0)));
     int numPyr;
-    
+    bool open=false;
     cout<<"Welcome to Liar Dice"<<endl<<endl;
     
     //Prompt number of player
@@ -42,6 +43,8 @@ int main(int argc, char** argv) {
         dspDice(players[i]);
     }
     
+        bidP1(open,players[0]);
+        
     
     
     //deallocate memory
@@ -76,4 +79,38 @@ void dspDice(Player p) {
         cout<<p.dices[i]<<" ";
     }
     cout<<endl;
+}
+
+void bidP1(bool &open,Player p) {
+    string ans;//answer of open or not
+    string bid;
+    bool invalid=false;
+    //prompt user for challenge or not
+    do {
+        cout<<"Would you like to challenge?(Y or N): ";
+        cin>>ans;
+        if(ans!="Y"&&ans!="N"&&ans!="y"&&ans!="n") 
+            cout<<"Invalid input"<<endl;
+    } while(ans!="Y"&&ans!="N"&&ans!="y"&&ans!="n");
+    //when answer is open
+    if(ans=="Y"||ans=="y") {
+        open=true; //set open to true
+        cout<<"Open"<<endl;
+        cout<<bid<<endl;
+    } else { //when answer is not open
+        
+        do {
+            cin.ignore();
+            getline(cin,bid);
+            if(bid.length()!=3) {
+                invalid=true;
+            }
+            if(bid.length()==3) {
+                if(bid.at(0)<49||bid.at(0)>54||bid.at(2)<49||bid.at(2)>54) 
+                    invalid=true;
+                if(bid.at(1)!=' '&&bid.at(1)!='w') invalid=true;
+            }
+            
+        } while(invalid);
+    }
 }
