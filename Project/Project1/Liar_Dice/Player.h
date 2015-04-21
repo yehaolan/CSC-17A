@@ -9,7 +9,7 @@
 #define	PLAYER_H
 
 struct Player {
-    int *dices;
+    char *dices;
     vector<int> codVal;//called dice
     vector<int> codQuan;//quantity of dice called
 };

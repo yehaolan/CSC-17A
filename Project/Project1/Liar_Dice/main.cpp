@@ -7,6 +7,7 @@
 
 //System libraries
 #include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -18,15 +19,16 @@ using namespace std;
 
 //Function prototypes
 Player *cretPyr(int);//create player and roll dice
-int *rolDice(int);//roll 5 dices
+char *rolDice(int);//roll 5 dices
 void dspDice(Player);//display dice of a player
-void bidP1(int &,Player);
+void bidP1(int &,Player,char,char);
 
 //Execution begins here
 int main(int argc, char** argv) {
     //set seed for rolling dice
     srand(static_cast<unsigned int>(time(0)));
-    int numPyr;
+    int numPyr;//number of player
+    
     int open=0;//open=0 -> not open, =1 -> player1 open, =2 -> player2 open
     cout<<"Welcome to Liar Dice"<<endl<<endl;
     
@@ -37,13 +39,18 @@ int main(int argc, char** argv) {
         if(numPyr>3||numPyr<2)
             cout<<"Invalid input"<<endl;
     } while(numPyr>3||numPyr<2);
-    //create players
+    //create players and roll dices
     Player *players=cretPyr(numPyr);
+    char face='0';
+    char num='0'+numPyr*3/2;
+    //cout<<"face is "<<face<<endl;
+    
+    //show dices of all players
     for(int i=0;i<numPyr;i++) {
         dspDice(players[i]);
     }
     
-        bidP1(open,players[0]);
+        bidP1(open,players[0],face,num);
         
     
     
@@ -61,18 +68,22 @@ Player *cretPyr(int n) {
     Player *players=new Player[n];
     for(int i=0;i<n;i++) {
         players[i].dices=rolDice(5);
+        players[i].codQuan.push_back(n*3/2);
+        players[i].codVal.push_back(1);
     }
     return players;
 }
 
-int *rolDice(int n) {
-    int *dices=new int[n];
+//roll dices and save in char array
+char *rolDice(int n) {
+    char *dices=new char[n];
     for(int i=0;i<n;i++) {
-        dices[i]=rand()%6+1;
+        dices[i]=static_cast<char>(rand()%6+1+48);
     }
     return dices;
 }
 
+//output the dices of a player
 void dspDice(Player p) {
     cout<<"Dice: ";
     for(int i=0;i<5;i++) {
@@ -81,7 +92,7 @@ void dspDice(Player p) {
     cout<<endl;
 }
 
-void bidP1(int &open,Player p) {
+void bidP1(int &open,Player p,char face,char num) {
     string ans;//answer of open or not
     string bid;
     bool invalid;
@@ -100,17 +111,19 @@ void bidP1(int &open,Player p) {
         cin.ignore();
         do {
             invalid=false;
-            cout<<"Your bidding: ";
-            
-            getline(cin,bid);
-            if(bid.length()!=3) {
-                invalid=true;
-            }
+            cout<<"Your bidding(format:\"1 2\" or \"2w3\"): ";
+            getline(cin,bid);//1st element is number of dice,2nd is space or w,3rd is face of dice
+            if(bid.length()!=3) invalid=true;
             if(bid.length()==3) {
                 if(bid.at(0)<49||bid.at(0)>54||bid.at(2)<49||bid.at(2)>54) 
                     invalid=true;
                 if(bid.at(1)!=' '&&bid.at(1)!='w') invalid=true;
             }
+            //if format of input is right, check the contents of input
+            if(bid.at(0)<num) invalid=true; //quantity less than previous one
+            //quantity=previous one,but face of dice< previous one
+            if(bid.at(0)==num&&bid.at(2)<=face) invalid=true;
+            
             if(invalid) cout<<"Invalid input!!"<<endl;
         } while(invalid);
         p.codVal.push_back(static_cast<int>(bid.at(2)-48));
