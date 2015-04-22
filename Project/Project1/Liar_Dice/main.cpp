@@ -21,7 +21,7 @@ using namespace std;
 Player *cretPyr(int);//create player and roll dice
 char *rolDice(int);//roll 5 dices
 void dspDice(Player);//display dice of a player
-void bidP1(int &,Player &,char &,int &);//First player(you)
+void bidP1(int &,Player &,char &,int &,int);//First player(you)
 void AI(int &,Player &,char &,char &);
 
 //Execution begins here
@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
         dspDice(players[i]);
     }
     do {
-        bidP1(open,players[0],face,num);
+        bidP1(open,players[0],face,num,numPyr);
         
     } while(open==-1);
     
@@ -102,7 +102,7 @@ void dspDice(Player p) {
     cout<<endl;
 }
 
-void bidP1(int &open,Player &p,char &face,int &num) {
+void bidP1(int &open,Player &p,char &face,int &num,int numPyr) {
     string ans;//answer of open or not
     string bid;
     int numTemp;
@@ -150,12 +150,11 @@ void bidP1(int &open,Player &p,char &face,int &num) {
                     fceTemp=bid.at(3);
                 }
             }
-            
-            
             //if format of input is right, check the contents of input
             if(numTemp<num) invalid=true; //quantity less than previous one
             //quantity=previous one,but face of dice< previous one
             if(numTemp==num&&fceTemp<=face) invalid=true;
+            if(numTemp>numPyr*5) invalid=true;
             
             if(invalid) cout<<"Invalid input!!"<<endl;
         } while(invalid);
