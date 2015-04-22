@@ -21,7 +21,8 @@ using namespace std;
 Player *cretPyr(int);//create player and roll dice
 char *rolDice(int);//roll 5 dices
 void dspDice(Player);//display dice of a player
-void bidP1(int &,Player,char,char);
+void bidP1(int &,Player &,char &,char &);//First player(you)
+void AI(int &,Player &,char &,char &);
 
 //Execution begins here
 int main(int argc, char** argv) {
@@ -49,10 +50,17 @@ int main(int argc, char** argv) {
     for(int i=0;i<numPyr;i++) {
         dspDice(players[i]);
     }
-    
+    do {
         bidP1(open,players[0],face,num);
         
+    } while(open==0);
     
+    cout<<"You guessed "<<players[0].codQuan.size()<<" times"<<endl;
+    cout<<"The record of me: "<<endl;
+    cout<<"Face  Quantity"<<endl;
+    for(int i=0;i<players[0].codQuan.size();i++) {
+        cout<<players[0].codVal[i]<<"     "<<players[0].codQuan[i]<<endl;
+    }
     
     //deallocate memory
     for(int i=0;i<numPyr;i++) {
@@ -68,8 +76,6 @@ Player *cretPyr(int n) {
     Player *players=new Player[n];
     for(int i=0;i<n;i++) {
         players[i].dices=rolDice(5);
-        players[i].codQuan.push_back(n*3/2);
-        players[i].codVal.push_back(1);
     }
     return players;
 }
@@ -92,7 +98,7 @@ void dspDice(Player p) {
     cout<<endl;
 }
 
-void bidP1(int &open,Player p,char face,char num) {
+void bidP1(int &open,Player &p,char &face,char &num) {
     string ans;//answer of open or not
     string bid;
     bool invalid;
@@ -126,8 +132,9 @@ void bidP1(int &open,Player p,char face,char num) {
             
             if(invalid) cout<<"Invalid input!!"<<endl;
         } while(invalid);
+        num=bid.at(0);
+        face=bid.at(2);
         p.codVal.push_back(static_cast<int>(bid.at(2)-48));
         p.codQuan.push_back(static_cast<int>(bid.at(0)-48));
-        
     }
 }
