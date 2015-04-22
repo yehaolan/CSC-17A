@@ -21,7 +21,7 @@ using namespace std;
 Player *cretPyr(int);//create player and roll dice
 char *rolDice(int);//roll 5 dices
 void dspDice(Player);//display dice of a player
-void bidP1(int &,Player &,char &,char &);//First player(you)
+void bidP1(int &,Player &,char &,int &);//First player(you)
 void AI(int &,Player &,char &,char &);
 
 //Execution begins here
@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     srand(static_cast<unsigned int>(time(0)));
     int numPyr;//number of player
     
-    int open=0;//open=0 -> not open, =1 -> player1 open, =2 -> player2 open
+    int open=-1;//open=-1 -> not open, =0 -> player1 open, =1 -> player2 open etc.
     cout<<"Welcome to Liar Dice"<<endl<<endl;
     
     //Prompt number of player
@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
     //create players and roll dices
     Player *players=cretPyr(numPyr);
     char face='0';
-    char num='0'+numPyr*3/2;
+    int num=numPyr*3/2;
     //cout<<"face is "<<face<<endl;
     
     //show dices of all players
@@ -53,14 +53,17 @@ int main(int argc, char** argv) {
     do {
         bidP1(open,players[0],face,num);
         
-    } while(open==0);
+    } while(open==-1);
     
+    
+    /*
     cout<<"You guessed "<<players[0].codQuan.size()<<" times"<<endl;
     cout<<"The record of me: "<<endl;
     cout<<"Face  Quantity"<<endl;
     for(int i=0;i<players[0].codQuan.size();i++) {
         cout<<players[0].codVal[i]<<"     "<<players[0].codQuan[i]<<endl;
     }
+    */
     
     //deallocate memory
     for(int i=0;i<numPyr;i++) {
@@ -76,6 +79,7 @@ Player *cretPyr(int n) {
     Player *players=new Player[n];
     for(int i=0;i<n;i++) {
         players[i].dices=rolDice(5);
+        players[i].order=i;
     }
     return players;
 }
@@ -98,10 +102,13 @@ void dspDice(Player p) {
     cout<<endl;
 }
 
-void bidP1(int &open,Player &p,char &face,char &num) {
+void bidP1(int &open,Player &p,char &face,int &num) {
     string ans;//answer of open or not
     string bid;
+    int numTemp;
+    char fceTemp;
     bool invalid;
+    
     //prompt user for challenge or not
     do {
         cout<<"Would you like to challenge?(Y or N): ";
@@ -111,30 +118,52 @@ void bidP1(int &open,Player &p,char &face,char &num) {
     } while(ans!="Y"&&ans!="N"&&ans!="y"&&ans!="n");
     //when answer is open
     if(ans=="Y"||ans=="y") {
-        open=1; //set open to true
+        open=p.order; //set open to true
         cout<<"Open"<<endl;
     } else { //when answer is not open
         cin.ignore();
         do {
+            numTemp=0;
+            fceTemp=' ';
             invalid=false;
             cout<<"Your bidding(format:\"1 2\" or \"2w3\"): ";
             getline(cin,bid);//1st element is number of dice,2nd is space or w,3rd is face of dice
-            if(bid.length()!=3) invalid=true;
-            if(bid.length()==3) {
-                if(bid.at(0)<49||bid.at(0)>54||bid.at(2)<49||bid.at(2)>54) 
-                    invalid=true;
-                if(bid.at(1)!=' '&&bid.at(1)!='w') invalid=true;
+            //check the input valid or not
+            if(bid.length()!=3&&bid.length()!=4) invalid=true;//length only 3 or 4
+            if(bid.length()==3||bid.length()==4) {
+                for(int i=0;i<bid.length();i++) {  
+                    if(i==bid.length()-2) {
+                        if(bid.at(i)!=' '&&bid.at(i)!='w') invalid=true;
+                    }
+                    if(i<bid.length()-2) //number of one face of dice should be a integer
+                        if(bid.at(i)<'0'||bid.at(i)>'9') invalid=true;
+                    if(i>bid.length()-2) //face of dice should be between 1 and 6
+                        if(bid.at(i)<'1'||bid.at(i)>'6') invalid=true;
+                }
             }
+            if(!invalid) {
+                if(bid.length()==3) {
+                    numTemp=static_cast<int>(bid.at(0)-48);
+                    fceTemp=bid.at(2);
+                } else if(bid.length()==4) {
+                    numTemp=static_cast<int>(bid.at(0)-48)*10+static_cast<int>(bid.at(1)-48);
+                    fceTemp=bid.at(3);
+                }
+            }
+            
+            
             //if format of input is right, check the contents of input
-            if(bid.at(0)<num) invalid=true; //quantity less than previous one
+            if(numTemp<num) invalid=true; //quantity less than previous one
             //quantity=previous one,but face of dice< previous one
-            if(bid.at(0)==num&&bid.at(2)<=face) invalid=true;
+            if(numTemp==num&&fceTemp<=face) invalid=true;
             
             if(invalid) cout<<"Invalid input!!"<<endl;
         } while(invalid);
-        num=bid.at(0);
-        face=bid.at(2);
-        p.codVal.push_back(static_cast<int>(bid.at(2)-48));
-        p.codQuan.push_back(static_cast<int>(bid.at(0)-48));
+        
+        num=numTemp;
+        face=fceTemp;
+        cout<<"You guessed "<<num<<" of "<<face<<endl;
+        p.codVal.push_back(face);
+        p.codQuan.push_back(num);
     }
 }

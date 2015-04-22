@@ -10,8 +10,9 @@
 
 struct Player {
     char *dices;
-    vector<int> codVal;//called dice
+    vector<char> codVal;//called dice
     vector<int> codQuan;//quantity of dice called
+    int order;//the order of the game
 };
 
 #endif	/* PLAYER_H */
