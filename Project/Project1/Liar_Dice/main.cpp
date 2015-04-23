@@ -200,7 +200,7 @@ void AI(int &open,Player &p,char &face,int &num,int numPyr) {
 }
 
 //get the quantity of one face of dice of one player
-int getQuan(Player p,char face) {
+int getQuan(Player p,char face) {  //Tested it's ok
     int num=0;
     int ones=0;
     for(int i=0;i<5;i++) {
@@ -211,13 +211,13 @@ int getQuan(Player p,char face) {
 }
 
 //get the faces of dice that doesn't exist in AI's 
-vector<char> getNtEs(char *dices) {
+vector<char> getNtEs(char *dices) {  //Tested it's ok
     vector<char> nExist;//not exist face of dice
     for(int i=1;i<=6;i++) {
         nExist.push_back(i+48);
     }
     for(int i=0;i<5;i++) {
-        nExist[static_cast<int>(dices[i])-1]='0';
+        nExist[static_cast<int>(dices[i]-48)-1]='0';
     }
     for(int i=0;i<5;i++) {
         for(int j=i+1;j<6;j++) {
@@ -234,7 +234,7 @@ vector<char> getNtEs(char *dices) {
     return nExist;
 }
 
-vector<char> getEs(char *dices) {
+vector<char> getEs(char *dices) { //Tested it's ok
     bool inside;
     vector<char> exist;
     for(int i=0;i<5;i++) {
