@@ -25,6 +25,7 @@ void bidP1(int &,Player &,char &,int &,int);//First player(you)
 void AI(int &,Player &,char &,char &);
 int getQuan(Player,char);
 vector<char> getNtEs(char *);
+vector<char> getEs(char *);
 
 //Execution begins here
 int main(int argc, char** argv) {
@@ -185,12 +186,14 @@ void AI(int &open,Player &p,char &face,int &num,int numPyr) {
         if(rand()%5<2) { //lie 2/5
             //get the face of dice that AI doesn't have
             vector<char> nExist=getNtEs(p.dices);
-            char faceTem=nExist[rand%nExist.size()];
+            char faceTem=nExist[rand()%nExist.size()];
             if(faceTem<=face) num++;
             face=faceTem;
-
         } else {  //true 3/5
-            
+            vector<char> exist=getEs(p.dices);
+            char faceTem=exist[rand()%exist.size()];
+            if(faceTem<=face) num++;
+            face=faceTem;
         }
         cout<<"He bid "<<num<<" of "<<face<<endl;
     }
@@ -207,6 +210,7 @@ int getQuan(Player p,char face) {
     return num+ones;
 }
 
+//get the faces of dice that doesn't exist in AI's 
 vector<char> getNtEs(char *dices) {
     vector<char> nExist;//not exist face of dice
     for(int i=1;i<=6;i++) {
@@ -228,4 +232,17 @@ vector<char> getNtEs(char *dices) {
         if(nExist[i]=='0') nExist.pop_back();
     }
     return nExist;
+}
+
+vector<char> getEs(char *dices) {
+    bool inside;
+    vector<char> exist;
+    for(int i=0;i<5;i++) {
+        inside=false;
+        for(int j=0;j<exist.size();j++) {
+            if(exist[j]==dices[i]) inside=true;
+        }
+        if(!inside) exist.push_back(dices[i]);
+    }
+    return exist;
 }
