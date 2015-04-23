@@ -24,6 +24,7 @@ void dspDice(Player);//display dice of a player
 void bidP1(int &,Player &,char &,int &,int);//First player(you)
 void AI(int &,Player &,char &,char &);
 int getQuan(Player,char);
+vector<char> getNtEs(char *);
 
 //Execution begins here
 int main(int argc, char** argv) {
@@ -180,6 +181,19 @@ void AI(int &open,Player &p,char &face,int &num,int numPyr) {
     }
     if(num>=numPyr*4) open=p.order;
     //bid
+    if(open==-1) {
+        if(rand()%5<2) { //lie 2/5
+            //get the face of dice that AI doesn't have
+            vector<char> nExist=getNtEs(p.dices);
+            char faceTem=nExist[rand%nExist.size()];
+            if(faceTem<=face) num++;
+            face=faceTem;
+
+        } else {  //true 3/5
+            
+        }
+        cout<<"He bid "<<num<<" of "<<face<<endl;
+    }
 }
 
 //get the quantity of one face of dice of one player
@@ -191,4 +205,27 @@ int getQuan(Player p,char face) {
         if(p.dices[i]=='1'&&face!='1') ones++;
     }
     return num+ones;
+}
+
+vector<char> getNtEs(char *dices) {
+    vector<char> nExist;//not exist face of dice
+    for(int i=1;i<=6;i++) {
+        nExist.push_back(i+48);
+    }
+    for(int i=0;i<5;i++) {
+        nExist[static_cast<int>(dices[i])-1]='0';
+    }
+    for(int i=0;i<5;i++) {
+        for(int j=i+1;j<6;j++) {
+            if(nExist[i]<nExist[j]) {
+                char temp=nExist[i];
+                nExist[i]=nExist[j];
+                nExist[j]=temp;
+            }
+        }
+    }
+    for(int i=5;i>=0;i--) {
+        if(nExist[i]=='0') nExist.pop_back();
+    }
+    return nExist;
 }
