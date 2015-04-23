@@ -23,6 +23,7 @@ char *rolDice(int);//roll 5 dices
 void dspDice(Player);//display dice of a player
 void bidP1(int &,Player &,char &,int &,int);//First player(you)
 void AI(int &,Player &,char &,char &);
+int getQuan(Player,char);
 
 //Execution begins here
 int main(int argc, char** argv) {
@@ -155,7 +156,6 @@ void bidP1(int &open,Player &p,char &face,int &num,int numPyr) {
             //quantity=previous one,but face of dice< previous one
             if(numTemp==num&&fceTemp<=face) invalid=true;
             if(numTemp>numPyr*5) invalid=true;
-            
             if(invalid) cout<<"Invalid input!!"<<endl;
         } while(invalid);
         
@@ -165,4 +165,30 @@ void bidP1(int &open,Player &p,char &face,int &num,int numPyr) {
         p.codVal.push_back(face);
         p.codQuan.push_back(num);
     }
+}
+
+void AI(int &open,Player &p,char &face,int &num,int numPyr) {
+    //determine challenge or not
+    if(getQuan(p,face)>=num) open=-1; //when bided number of a kind dice <= AI's, not challenge 
+    else if(getQuan(p,face)==0&&num>=numPyr*2) open=p.order;
+    else if(getQuan(p,face)==1&&num-1>(numPyr-1)*2) {
+        if(rand()%6<3) open=p.order; //50% to open
+    } else if(getQuan(p,face)==2&&num-2>(numPyr-1)*2) {
+        if(rand()%6<2) open=p.order; //1/3 to open
+    } else if(getQuan(p,face)==3&&num-3>(numPyr-1)*2) {
+        if(rand()%6<2) open=p.order; //1/3 to open
+    }
+    if(num>=numPyr*4) open=p.order;
+    //bid
+}
+
+//get the quantity of one face of dice of one player
+int getQuan(Player p,char face) {
+    int num=0;
+    int ones=0;
+    for(int i=0;i<5;i++) {
+        if(p.dices[i]==face) num++;
+        if(p.dices[i]=='1'&&face!='1') ones++;
+    }
+    return num+ones;
 }
