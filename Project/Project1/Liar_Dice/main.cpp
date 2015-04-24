@@ -21,22 +21,25 @@ using namespace std;
 Player *cretPyr(int);//create player and roll dice
 char *rolDice(int);//roll 5 dices
 void dspDice(Player);//display dice of a player
-void bidP1(int &,Player &,char &,int &,int,int &);//First player(you)
-void AI(int &,Player &,char &,int &,int,int &);
-int getQuan(Player,char);
-vector<char> getNtEs(char *);
-vector<char> getEs(char *);
-char getMtFr(char *);
+void chalng(Player,int &,int);
+void bidP1(Player &,char &,int &,int,int &,int);//First player(you)
+void AIBid(int,Player &,char &,int &,int,int &);//AI's turn
+void AIChalg(int &,Player,char,int,int,int);
+int getQuan(Player,char);//get the quantity of that face of dice in one AI's hand
+vector<char> getNtEs(char *);//get the dices that not exist one AI's hand
+vector<char> getEs(char *);//get the dices that exist one AI's hand
+char getMtFr(char *);//get the most frequent face of dices in one AI's hand
+void result(int,char,int,Player *,int);//Determine who win and lost
+
 
 //Execution begins here
 int main(int argc, char** argv) {
     //set seed for rolling dice
     srand(static_cast<unsigned int>(time(0)));
     int numPyr;//number of player
-    int round=0;
+    int round=0;//round of the game
     int open=-1;//open=-1 -> not open, =0 -> player1 open, =1 -> player2 open etc.
     cout<<"Welcome to Liar Dice"<<endl<<endl;
-    
     //Prompt number of player
     do {
         cout<<"Amount of player(2 or 3): ";
@@ -46,18 +49,15 @@ int main(int argc, char** argv) {
     } while(numPyr>3||numPyr<2);
     //create players and roll dices
     Player *players=cretPyr(numPyr);
-    for(int i=0;i<numPyr;i++) {
-        cout<<players[i].order<<endl;
-    }
-    char face='0';
-    int num=numPyr*3/2;
-    //cout<<"face is "<<face<<endl;
-    dspDice(players[0]);
-    
+    char face='0';//initial the face to 0
+    int num=numPyr*3/2;//initial the number to 1.5*number of player
+    dspDice(players[0]);//display your dice
+    //game begins
     do {
-        bidP1(open,players[0],face,num,numPyr,round);
-        if(open!=-1) break;
-        AI(open,players[1],face,num,numPyr,round);
+        chalng(players[0],open,round);
+        bidP1(players[0],face,num,numPyr,round,open);
+        AIChalg(open,players[1],face,num,numPyr,round);
+        AIBid(open,players[1],face,num,numPyr,round);
     } while(open==-1);
     
     
@@ -73,6 +73,8 @@ int main(int argc, char** argv) {
     for(int i=0;i<numPyr;i++) {
         dspDice(players[i]);
     }
+    //display the result of the game
+    result(num,face,numPyr,players,open);
     //deallocate memory
     for(int i=0;i<numPyr;i++) {
         delete []players[i].dices;
@@ -94,7 +96,9 @@ Player *cretPyr(int n) {
 
 //roll dices and save in char array
 char *rolDice(int n) {
+    //allocate memory
     char *dices=new char[n];
+    //randomly roll the dice
     for(int i=0;i<n;i++) {
         dices[i]=static_cast<char>(rand()%6+1+48);
     }
@@ -103,22 +107,19 @@ char *rolDice(int n) {
 
 //output the dices of a player
 void dspDice(Player p) {
-    cout<<"Dice: ";
+    if(p.order==0) cout<<"Your    ";
+    else cout<<"AI #"<<p.order<<"'s ";
+    cout<<"dice: ";
     for(int i=0;i<5;i++) {
         cout<<p.dices[i]<<" ";
     }
     cout<<endl;
 }
 
-void bidP1(int &open,Player &p,char &face,int &num,int numPyr,int &r) {
+void chalng(Player p,int &open,int r) {
     string ans="N";//answer of open or not
-    string bid;
-    int numTemp;
-    char fceTemp;
-    bool invalid;
-    
     //prompt user for challenge or not
-    if(r!=0) {
+    if(r!=0&&open==-1) {
         do {
             cout<<"Would you like to challenge?(Y or N): ";
             cin>>ans;
@@ -129,8 +130,18 @@ void bidP1(int &open,Player &p,char &face,int &num,int numPyr,int &r) {
     //when answer is open
     if(ans=="Y"||ans=="y") {
         open=p.order; //set open to true
-        cout<<"Open"<<endl;
-    } else { //when answer is not open
+        cout<<"You Challenge"<<endl;
+    }
+}
+
+void bidP1(Player &p,char &face,int &num,int numPyr,int &r,int open) {
+    string bid;
+    int numTemp;
+    char fceTemp;
+    bool invalid;
+    
+    //when answer is open
+    if(open==-1) { //when answer is not open
         cin.ignore();
         do {
             numTemp=0;
@@ -177,8 +188,8 @@ void bidP1(int &open,Player &p,char &face,int &num,int numPyr,int &r) {
     }
 }
 
-void AI(int &open,Player &p,char &face,int &num,int numPyr,int &r) {
-    if(r!=0) {
+void AIChalg(int &open,Player p,char face,int num,int numPyr,int r) {
+    if(r!=0&&open==-1) {
         //determine challenge or not
         if(getQuan(p,face)>=num) open=-1; //when bided number of a kind dice <= AI's, not challenge 
         else if(getQuan(p,face)==0&&num>=numPyr*2) open=p.order;
@@ -197,8 +208,11 @@ void AI(int &open,Player &p,char &face,int &num,int numPyr,int &r) {
                 if(rand()%5<4) open=p.order;
             }
         }
-        if(open==p.order) cout<<"AI challenge"<<endl;
+        if(open==p.order) cout<<"AI #"<<p.order<<" challenge"<<endl;
     }
+}
+
+void AIBid(int open,Player &p,char &face,int &num,int numPyr,int &r) {
     //bid
     if(open==-1) {
         vector<char> nExist=getNtEs(p.dices);
@@ -230,11 +244,14 @@ void AI(int &open,Player &p,char &face,int &num,int numPyr,int &r) {
         } 
         r++;
         cout<<"He bid "<<num<<" of "<<face<<endl;
+        p.codQuan.push_back(num);
+        p.codVal.push_back(face);
+        
     }
 }
 
 //get the quantity of one face of dice of one player
-int getQuan(Player p,char face) {  //Tested it's ok
+int getQuan(Player p,char face) { 
     int num=0;
     int ones=0;
     for(int i=0;i<5;i++) {
@@ -245,7 +262,7 @@ int getQuan(Player p,char face) {  //Tested it's ok
 }
 
 //get the faces of dice that doesn't exist in AI's hand
-vector<char> getNtEs(char *dices) {  //Tested it's ok
+vector<char> getNtEs(char *dices) {
     vector<char> nExist;//not exist face of dice
     for(int i=1;i<=6;i++) {
         nExist.push_back(i+48);
@@ -269,7 +286,7 @@ vector<char> getNtEs(char *dices) {  //Tested it's ok
 }
 
 //get the faces of dice that exist in AI's hand
-vector<char> getEs(char *dices) { //Tested it's ok
+vector<char> getEs(char *dices) {
     bool inside;
     vector<char> exist;
     for(int i=0;i<5;i++) {
@@ -282,11 +299,13 @@ vector<char> getEs(char *dices) { //Tested it's ok
     return exist;
 }
 
+//get the most frequent face of dice in the dices
 char getMtFr(char *dices) {
     int *temp=new int[5];
-    int cnt=1;
-    int hgst;
-    int indx;
+    int cnt=1;//count for the dice
+    int hgst;//highest number
+    int indx;//index
+    //if dices: 2 2 3 4 2, then temp: 3 3 1 1 3
     for(int i=0;i<5;i++) {
         for(int j=0;j<5;j++) {
             if(dices[i]==dices[j]) cnt++;
@@ -294,15 +313,30 @@ char getMtFr(char *dices) {
         temp[i]=cnt;
         cnt=1;
     }
-    hgst=temp[0];
-    indx=0;
-    
+    hgst=temp[0];//initialize the highest number
+    indx=0;//initialize the index
+    //find out the highest and its index
     for(int i=0;i<5;i++) {
         if(temp[i]>hgst) {
             hgst=temp[i];
             indx=i;
         }
     }
-    delete []temp;
+    delete []temp;//delete allocate memory
     return dices[indx];
+}
+
+//print out the result
+void result(int num,char face,int numPyr,Player *players,int open) {
+    int total=0;
+    for(int i=0;i<numPyr;i++) {
+        total+=getQuan(players[i],face);
+    }
+    if(total>=num) {
+        if(open==0) cout<<"You lost"<<endl;
+        else cout<<"AI #"<<open<<" lost"<<endl;
+    } else {
+        if(open==0) cout<<"You win"<<endl;
+        else cout<<"AI #"<<open<<" win"<<endl;
+    }
 }
