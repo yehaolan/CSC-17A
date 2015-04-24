@@ -53,11 +53,28 @@ int main(int argc, char** argv) {
     int num=numPyr*3/2;//initial the number to 1.5*number of player
     dspDice(players[0]);//display your dice
     //game begins
+    int temp=rand()%numPyr;
     do {
-        chalng(players[0],open,round);
-        bidP1(players[0],face,num,numPyr,round,open);
-        AIChalg(open,players[1],face,num,numPyr,round);
-        AIBid(open,players[1],face,num,numPyr,round);
+        switch(temp) {
+            case 0: {
+                chalng(players[0],open,round);
+                if(numPyr==3) AIChalg(open,players[1],face,num,numPyr,round);
+                bidP1(players[0],face,num,numPyr,round,open);
+            }
+            case 1: {
+                AIChalg(open,players[1],face,num,numPyr,round);
+                if(numPyr==3) AIChalg(open,players[2],face,num,numPyr,round);
+                AIBid(open,players[1],face,num,numPyr,round);
+            }
+            case 2: {
+                if(numPyr==3) {
+                    chalng(players[0],open,round);
+                    AIChalg(open,players[2],face,num,numPyr,round);
+                    AIBid(open,players[2],face,num,numPyr,round);
+                }
+            }
+        }
+        temp=0;
     } while(open==-1);
     
     
@@ -147,7 +164,7 @@ void bidP1(Player &p,char &face,int &num,int numPyr,int &r,int open) {
             numTemp=0;
             fceTemp=' ';
             invalid=false;
-            cout<<"Your bidding(format:\"1 2\" or \"2w3\"): ";
+            cout<<"Your bidding(format:\"3 4\" or \"4w5\"): ";
             getline(cin,bid);//1st element is number of dice,2nd is space or w,3rd is face of dice
             //check the input valid or not
             if(bid.length()!=3&&bid.length()!=4) invalid=true;//length only 3 or 4
@@ -209,6 +226,7 @@ void AIChalg(int &open,Player p,char face,int num,int numPyr,int r) {
             }
         }
         if(open==p.order) cout<<"AI #"<<p.order<<" challenge"<<endl;
+        else cout<<"AI #"<<p.order<<" does not challenge"<<endl;
     }
 }
 
@@ -243,7 +261,7 @@ void AIBid(int open,Player &p,char &face,int &num,int numPyr,int &r) {
             face=faceTem;
         } 
         r++;
-        cout<<"He bid "<<num<<" of "<<face<<endl;
+        cout<<"AI #"<<p.order<<" bid "<<num<<" of "<<face<<endl;
         p.codQuan.push_back(num);
         p.codVal.push_back(face);
         
