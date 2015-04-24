@@ -198,7 +198,7 @@ void bidP1(Player &p,char &face,int &num,int numPyr,int &r,int open) {
         
         num=numTemp;
         face=fceTemp;
-        cout<<"You guessed "<<num<<" of "<<face<<endl;
+        cout<<"You bid "<<num<<"  "<<face<<"'s"<<endl;
         p.codVal.push_back(face);
         p.codQuan.push_back(num);
         r++;
@@ -261,7 +261,7 @@ void AIBid(int open,Player &p,char &face,int &num,int numPyr,int &r) {
             face=faceTem;
         } 
         r++;
-        cout<<"AI #"<<p.order<<" bid "<<num<<" of "<<face<<endl;
+        cout<<"AI #"<<p.order<<" bid "<<num<<"  "<<face<<"'s"<<endl;
         p.codQuan.push_back(num);
         p.codVal.push_back(face);
         
@@ -350,6 +350,7 @@ void result(int num,char face,int numPyr,Player *players,int open) {
     for(int i=0;i<numPyr;i++) {
         total+=getQuan(players[i],face);
     }
+    cout<<"Totally, there are "<<total<<" "<<face<<"'s"<<endl;
     if(total>=num) {
         if(open==0) cout<<"You lost"<<endl;
         else cout<<"AI #"<<open<<" lost"<<endl;
