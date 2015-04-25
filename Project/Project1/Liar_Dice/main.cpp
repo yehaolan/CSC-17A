@@ -10,6 +10,7 @@
 #include <ctime>
 #include <iostream>
 #include <vector>
+#include <fstream>
 using namespace std;
 
 //User libraries
@@ -20,16 +21,16 @@ using namespace std;
 //Function prototypes
 Player *cretPyr(int);//create player and roll dice
 char *rolDice(int);//roll 5 dices
-void dspDice(Player);//display dice of a player
-void chalng(Player,int &,int);
-void bidP1(Player &,char &,int &,int,int &,int);//First player(you)
-void AIBid(int,Player &,char &,int &,int,int &);//AI's turn
-void AIChalg(int &,Player,char,int,int,int);
-int getQuan(Player,char);//get the quantity of that face of dice in one AI's hand
+void dspDice(Player *);//display dice of a player
+void chalng(Player,int &,int);//Player challenge
+void bidP1(Player &,char &,int &,int,int &,int,bool &);//First player(you)
+void AIBid(int,Player &,char &,int &,int,int &,bool);//AI's turn
+void AIChalg(int &,Player,char,int,int,int,bool);//AI challenge
+int getQuan(Player,char,bool);//get the quantity of that face of dice in one AI's hand
 vector<char> getNtEs(char *);//get the dices that not exist one AI's hand
 vector<char> getEs(char *);//get the dices that exist one AI's hand
 char getMtFr(char *);//get the most frequent face of dices in one AI's hand
-void result(int,char,int,Player *,int);//Determine who win and lost
+void result(int,char,int,Player *,int,bool);//Determine who win and lost
 
 
 //Execution begins here
@@ -38,6 +39,7 @@ int main(int argc, char** argv) {
     srand(static_cast<unsigned int>(time(0)));
     int numPyr;//number of player
     int round=0;//round of the game
+    bool wild=true;//1 is wild 
     int open=-1;//open=-1 -> not open, =0 -> player1 open, =1 -> player2 open etc.
     cout<<"Welcome to Liar Dice"<<endl<<endl;
     //Prompt number of player
@@ -51,26 +53,26 @@ int main(int argc, char** argv) {
     Player *players=cretPyr(numPyr);
     char face='0';//initial the face to 0
     int num=numPyr*3/2;//initial the number to 1.5*number of player
-    dspDice(players[0]);//display your dice
+    dspDice(players);//display your dice
     //game begins
     int temp=rand()%numPyr;
     do {
         switch(temp) {
             case 0: {
                 chalng(players[0],open,round);
-                if(numPyr==3) AIChalg(open,players[1],face,num,numPyr,round);
-                bidP1(players[0],face,num,numPyr,round,open);
+                if(numPyr==3) AIChalg(open,players[1],face,num,numPyr,round,wild);
+                bidP1(players[0],face,num,numPyr,round,open,wild);
             }
             case 1: {
-                AIChalg(open,players[1],face,num,numPyr,round);
-                if(numPyr==3) AIChalg(open,players[2],face,num,numPyr,round);
-                AIBid(open,players[1],face,num,numPyr,round);
+                AIChalg(open,players[1],face,num,numPyr,round,wild);
+                if(numPyr==3) AIChalg(open,players[2],face,num,numPyr,round,wild);
+                AIBid(open,players[1],face,num,numPyr,round,wild);
             }
             case 2: {
                 if(numPyr==3) {
                     chalng(players[0],open,round);
-                    AIChalg(open,players[2],face,num,numPyr,round);
-                    AIBid(open,players[2],face,num,numPyr,round);
+                    AIChalg(open,players[2],face,num,numPyr,round,wild);
+                    AIBid(open,players[2],face,num,numPyr,round,wild);
                 }
             }
         }
@@ -88,10 +90,10 @@ int main(int argc, char** argv) {
     */
     //show dices of all players
     for(int i=0;i<numPyr;i++) {
-        dspDice(players[i]);
+        dspDice(players+i);
     }
     //display the result of the game
-    result(num,face,numPyr,players,open);
+    result(num,face,numPyr,players,open,wild);
     //deallocate memory
     for(int i=0;i<numPyr;i++) {
         delete []players[i].dices;
@@ -123,12 +125,12 @@ char *rolDice(int n) {
 }
 
 //output the dices of a player
-void dspDice(Player p) {
-    if(p.order==0) cout<<"Your    ";
-    else cout<<"AI #"<<p.order<<"'s ";
+void dspDice(Player *p) {
+    if(p->order==0) cout<<"Your    ";
+    else cout<<"AI #"<<p->order<<"'s ";
     cout<<"dice: ";
     for(int i=0;i<5;i++) {
-        cout<<p.dices[i]<<" ";
+        cout<<p->dices[i]<<" ";
     }
     cout<<endl;
 }
@@ -151,7 +153,7 @@ void chalng(Player p,int &open,int r) {
     }
 }
 
-void bidP1(Player &p,char &face,int &num,int numPyr,int &r,int open) {
+void bidP1(Player &p,char &face,int &num,int numPyr,int &r,int open,bool &w) {
     string bid;
     int numTemp;
     char fceTemp;
@@ -164,14 +166,18 @@ void bidP1(Player &p,char &face,int &num,int numPyr,int &r,int open) {
             numTemp=0;
             fceTemp=' ';
             invalid=false;
-            cout<<"Your bidding(format:\"3 4\" or \"4w5\"): ";
-            getline(cin,bid);//1st element is number of dice,2nd is space or w,3rd is face of dice
+            if(r<=2) {
+            cout<<"Your bidding: ";
+            cout<<"format:\"3 4\"(means u bid 3 4s,and 1s are wild) or \"4n5\"(means you bid 4 5s only, and 1s are not wild)"<<endl;
+            }
+            cout<<"Your bidding: ";
+            getline(cin,bid);//1st element is number of dice,2nd is space or n,3rd is face of dice
             //check the input valid or not
             if(bid.length()!=3&&bid.length()!=4) invalid=true;//length only 3 or 4
             if(bid.length()==3||bid.length()==4) {
                 for(int i=0;i<bid.length();i++) {  
                     if(i==bid.length()-2) {
-                        if(bid.at(i)!=' '&&bid.at(i)!='w') invalid=true;
+                        if(bid.at(i)!=' '&&bid.at(i)!='n'&&bid.at(i)!='N') invalid=true;
                     }
                     if(i<bid.length()-2) //number of one face of dice should be a integer
                         if(bid.at(i)<'0'||bid.at(i)>'9') invalid=true;
@@ -198,83 +204,98 @@ void bidP1(Player &p,char &face,int &num,int numPyr,int &r,int open) {
         
         num=numTemp;
         face=fceTemp;
-        cout<<"You bid "<<num<<"  "<<face<<"'s"<<endl;
+        if(bid.at(bid.length()-2)=='n'||bid.at(bid.length()-2)=='N') w=false;
+        if(bid.at(bid.length()-1)=='1') w=false;
+        cout<<"You bid "<<num<<"  "<<face<<"s";
+        if(w) cout<<" "<<endl;
+        else cout<<" only"<<endl;
         p.codVal.push_back(face);
         p.codQuan.push_back(num);
         r++;
     }
 }
 
-void AIChalg(int &open,Player p,char face,int num,int numPyr,int r) {
+void AIChalg(int &open,Player p,char face,int num,int numPyr,int r,bool w) {
     if(r!=0&&open==-1) {
         //determine challenge or not
-        if(getQuan(p,face)>=num) open=-1; //when bided number of a kind dice <= AI's, not challenge 
-        else if(getQuan(p,face)==0&&num>=numPyr*2) open=p.order;
-        else if(getQuan(p,face)==1&&num-1>(numPyr-1)*2) {
-            if(rand()%6<3) open=p.order; //50% to open
-        } else if(getQuan(p,face)==2&&num-2>(numPyr-1)*2) {
-            if(rand()%6<2) open=p.order; //1/3 to open
-        } else if(getQuan(p,face)==3&&num-3>(numPyr-1)*2) {
-            if(rand()%6<2) open=p.order; //1/3 to open
-        } else if(getQuan(p,face)>=4&&num-getQuan(p,face)>(numPyr-1)*2) {
-            open=p.order; // 100% to open
-        }
-        if(num>=numPyr*3) {
-            if(num>=numPyr*4) open=p.order;
-            else {
-                if(rand()%5<4) open=p.order;
+        if(w) {
+            if(getQuan(p,face,w)>=num) open=-1; //when bided number of a kind dice <= AI's, not challenge 
+            else if(getQuan(p,face,w)==0&&num>=numPyr*2) open=p.order;
+            else if(getQuan(p,face,w)==1&&num-1>(numPyr-1)*2) {
+                if(rand()%6<3) open=p.order; //50% to open
+            } else if(getQuan(p,face,w)==2&&num-2>(numPyr-1)*2) {
+                if(rand()%6<2) open=p.order; //1/3 to open
+            } else if(getQuan(p,face,w)==3&&num-3>(numPyr-1)*2) {
+                if(rand()%6<2) open=p.order; //1/3 to open
+            } else if(getQuan(p,face,w)>=4&&num-getQuan(p,face,w)>(numPyr-1)*2) {
+                open=p.order; // 100% to open
             }
+            if(num>=numPyr*3) {
+                if(num>=numPyr*4) open=p.order;
+                else {
+                    if(rand()%5<4) open=p.order;
+                }
+            }
+        } else {
+            if(num-getQuan(p,face,w)>=2*(numPyr-1)) open=p.order;
         }
         if(open==p.order) cout<<"AI #"<<p.order<<" challenge"<<endl;
         else cout<<"AI #"<<p.order<<" does not challenge"<<endl;
     }
 }
 
-void AIBid(int open,Player &p,char &face,int &num,int numPyr,int &r) {
+void AIBid(int open,Player &p,char &face,int &num,int numPyr,int &r,bool w) {
     //bid
     if(open==-1) {
-        vector<char> nExist=getNtEs(p.dices);
         char faceTem;
-        //truth 3/5
-        if(rand()%5>=2||(nExist.size()==1&&nExist[0]=='1')) {  
-            if(rand()%3<2&&face==getMtFr(p.dices))  { //get the most frequent face of of AI's dices
-                faceTem=face;
-            } else { //randomly get a dice from existed dices
-                vector<char> exist=getEs(p.dices);
-                
+        if(w) {
+            vector<char> nExist=getNtEs(p.dices);
+            
+            //truth 3/5
+            if(rand()%5>=2||(nExist.size()==1&&nExist[0]=='1')) {  
+                if(rand()%3<2&&face==getMtFr(p.dices))  { //get the most frequent face of of AI's dices
+                    faceTem=face;
+                } else { //randomly get a dice from existed dices
+                    vector<char> exist=getEs(p.dices);
+
+                    do {
+                        faceTem=exist[rand()%exist.size()];
+                    } while(faceTem=='1');
+                }
+
+                if(faceTem<=face) num++;
+                face=faceTem;
+
+
+            } else { //lie 2/5
+                //get the face of dice that AI doesn't have
+                char faceTem;
                 do {
-                    faceTem=exist[rand()%exist.size()];
+                    faceTem=nExist[rand()%nExist.size()];
                 } while(faceTem=='1');
+                if(faceTem<=face) num++;
+                face=faceTem;
             }
-            
+        } else {
+            face=getMtFr(p.dices);
             if(faceTem<=face) num++;
-            face=faceTem;
-            
-            
-        } else { //lie 2/5
-            //get the face of dice that AI doesn't have
-            char faceTem;
-            do {
-                faceTem=nExist[rand()%nExist.size()];
-            } while(faceTem=='1');
-            if(faceTem<=face) num++;
-            face=faceTem;
-        } 
-        r++;
-        cout<<"AI #"<<p.order<<" bid "<<num<<"  "<<face<<"'s"<<endl;
+        }
+        cout<<"AI #"<<p.order<<" bid "<<num<<"  "<<face<<"s";
+        if(w) cout<<" "<<endl;
+        else cout<<" only"<<endl;
         p.codQuan.push_back(num);
         p.codVal.push_back(face);
-        
+        r++;
     }
 }
 
 //get the quantity of one face of dice of one player
-int getQuan(Player p,char face) { 
+int getQuan(Player p,char face,bool w) { 
     int num=0;
     int ones=0;
     for(int i=0;i<5;i++) {
         if(p.dices[i]==face) num++;
-        if(p.dices[i]=='1'&&face!='1') ones++;
+        if(w&&face!='1'&&p.dices[i]=='1') ones++;
     }
     return num+ones;
 }
@@ -345,17 +366,17 @@ char getMtFr(char *dices) {
 }
 
 //print out the result
-void result(int num,char face,int numPyr,Player *players,int open) {
+void result(int num,char face,int numPyr,Player *players,int open,bool w) {
     int total=0;
     for(int i=0;i<numPyr;i++) {
-        total+=getQuan(players[i],face);
+        total+=getQuan(players[i],face,w);
     }
     cout<<"Totally, there are "<<total<<" "<<face<<"'s"<<endl;
     if(total>=num) {
-        if(open==0) cout<<"You lost"<<endl;
-        else cout<<"AI #"<<open<<" lost"<<endl;
+        if(open==0) cout<<"Your challenge failed"<<endl;
+        else cout<<"AI #"<<open<<"'s challenge failed"<<endl;
     } else {
-        if(open==0) cout<<"You win"<<endl;
-        else cout<<"AI #"<<open<<" win"<<endl;
+        if(open==0) cout<<"Your challenge succeed"<<endl;
+        else cout<<"AI #"<<open<<"'s challenge succeed"<<endl;
     }
 }
