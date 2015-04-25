@@ -31,7 +31,8 @@ vector<char> getNtEs(char *);//get the dices that not exist one AI's hand
 vector<char> getEs(char *);//get the dices that exist one AI's hand
 char getMtFr(char *);//get the most frequent face of dices in one AI's hand
 void result(int,char,int,Player *,int,bool);//Determine who win and lost
-
+void wtFile(Player *,int);
+void rdFile(Player *,int);
 
 //Execution begins here
 int main(int argc, char** argv) {
@@ -40,6 +41,8 @@ int main(int argc, char** argv) {
     int numPyr;//number of player
     int round=0;//round of the game
     bool wild=true;//1 is wild 
+    
+    
     int open=-1;//open=-1 -> not open, =0 -> player1 open, =1 -> player2 open etc.
     cout<<"Welcome to Liar Dice"<<endl<<endl;
     //Prompt number of player
@@ -51,6 +54,9 @@ int main(int argc, char** argv) {
     } while(numPyr>3||numPyr<2);
     //create players and roll dices
     Player *players=cretPyr(numPyr);
+    Player *copy=new Player[numPyr];
+    wtFile(players,numPyr);
+    
     char face='0';//initial the face to 0
     int num=numPyr*3/2;//initial the number to 1.5*number of player
     dspDice(players);//display your dice
@@ -78,29 +84,44 @@ int main(int argc, char** argv) {
         }
         temp=0;
     } while(open==-1);
+    //read the binary file(players)
+    rdFile(copy,numPyr);
     
-    
-    /*
-    cout<<"You guessed "<<players[0].codQuan.size()<<" times"<<endl;
-    cout<<"The record of me: "<<endl;
-    cout<<"Face  Quantity"<<endl;
-    for(int i=0;i<players[0].codQuan.size();i++) {
-        cout<<players[0].codVal[i]<<"     "<<players[0].codQuan[i]<<endl;
-    }
-    */
     //show dices of all players
     for(int i=0;i<numPyr;i++) {
-        dspDice(players+i);
-    }
+        dspDice(copy+i);
+    } 
     //display the result of the game
-    result(num,face,numPyr,players,open,wild);
+    result(num,face,numPyr,copy,open,wild);
     //deallocate memory
     for(int i=0;i<numPyr;i++) {
+        //delete []copy[i].dices;
         delete []players[i].dices;
     }
     delete []players;
+    delete []copy;
     //Exit stage right
     return 0;
+}
+
+void wtFile(Player *p,int n) {
+    fstream out;
+    cout<<"Write to the file"<<endl;
+    out.open("players.txt",ios::out|ios::binary);
+    if(!out.fail()) {
+       out.write(reinterpret_cast<char *>(p),sizeof(Player)*n); 
+    }
+    out.close();
+}
+
+void rdFile(Player *c,int n) {
+    fstream in;
+    cout<<"Read from the file"<<endl;
+    in.open("players.txt",ios::in|ios::binary);
+    if(!in.fail()) {
+       in.read(reinterpret_cast<char *>(c),sizeof(Player)*n); 
+    }
+    in.close();
 }
 
 //create players and roll dice
@@ -209,8 +230,6 @@ void bidP1(Player &p,char &face,int &num,int numPyr,int &r,int open,bool &w) {
         cout<<"You bid "<<num<<"  "<<face<<"s";
         if(w) cout<<" "<<endl;
         else cout<<" only"<<endl;
-        p.codVal.push_back(face);
-        p.codQuan.push_back(num);
         r++;
     }
 }
@@ -283,8 +302,6 @@ void AIBid(int open,Player &p,char &face,int &num,int numPyr,int &r,bool w) {
         cout<<"AI #"<<p.order<<" bid "<<num<<"  "<<face<<"s";
         if(w) cout<<" "<<endl;
         else cout<<" only"<<endl;
-        p.codQuan.push_back(num);
-        p.codVal.push_back(face);
         r++;
     }
 }
@@ -371,7 +388,7 @@ void result(int num,char face,int numPyr,Player *players,int open,bool w) {
     for(int i=0;i<numPyr;i++) {
         total+=getQuan(players[i],face,w);
     }
-    cout<<"Totally, there are "<<total<<" "<<face<<"'s"<<endl;
+    cout<<"Totally, there are "<<total<<" "<<face<<"s"<<endl;
     if(total>=num) {
         if(open==0) cout<<"Your challenge failed"<<endl;
         else cout<<"AI #"<<open<<"'s challenge failed"<<endl;
