@@ -190,6 +190,7 @@ void bid(Player &p,char &face,int &num,int numPyr,int &r,int open,bool &w) {
             if(r<=2) {
             cout<<"Your bidding: ";
             cout<<"format:\"3 4\"(means u bid 3 4s,and 1s are wild) or \"4n5\"(means you bid 4 5s only, and 1s are not wild)"<<endl;
+            cout<<"First bid must be >= 1.5*players"<<endl;
             }
             cout<<"Your bidding: ";
             getline(cin,bid);//1st element is number of dice,2nd is space or n,3rd is face of dice
