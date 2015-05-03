@@ -17,7 +17,7 @@ void Array::fillArray() {
     indx =new int[size];
     for(int i=0;i<size;i++) {
         data[i]=rand()%90+10;
-        indx[i]=data[i];
+        indx[i]=i;
     }    
 }
 

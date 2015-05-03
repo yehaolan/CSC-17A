@@ -38,7 +38,8 @@ int main(int argc, char** argv) {
     cout<<"Sorted array:"<<endl;
     a.sort();
     a.prntArray();
-    
+    cout<<"Refilled array"<<endl;
+    a.prntArray();
     
     //retrieve a property and  a data point
     cout<<"The size of the array: "<<a.getSize()<<endl;

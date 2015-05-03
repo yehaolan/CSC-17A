@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
     cout<<"Change the day to 1997/6/18"<<endl;
     date.setYear(1997);
     date.setMnth(6);
-    date.setDay(35);
+    date.setDay(21);
     date.pntDate();
     
     return 0;
