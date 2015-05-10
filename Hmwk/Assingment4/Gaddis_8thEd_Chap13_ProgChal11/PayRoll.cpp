@@ -19,26 +19,31 @@ PayRoll::PayRoll() {
 //Constructor 2
 PayRoll::PayRoll(float p,int n) {
     //assign the argument to member variables when they are valid
-    if(p>=0&&n>=0&&n<=60) {
-        payRate=p;
-        wrkHour=n;
-        tPay=payRate*wrkHour;
-    } else {
-        //otherwise, set to 0
-        payRate=0;
-        wrkHour=0;
-        tPay=0;
-    }
+        if(p>=0) payRate=p;
+        else payRate=0;
+        if(n>=0&&n<=60) wrkHour=n;
+        else wrkHour=0;
+        setTPay();
+}
+
+void PayRoll::setTPay() {
+    tPay=payRate*wrkHour;
 }
 
 //set the pay rate
 void PayRoll::setPyRt(float p) {
-    if(p>=0) payRate=p;
+    if(p>=0) {
+        payRate=p;
+        setTPay();
+    }
     else cout<<"Invalid pay rate"<<endl;
 }
 //set the working hour
 void PayRoll::setWkHr(int n) {
-    if(n>=0&&n<=60) wrkHour=n;
+    if(n>=0&&n<=60) {
+        wrkHour=n;
+        setTPay();
+    }
     else cout<<"Invalid working hour"<<endl;
 }
 

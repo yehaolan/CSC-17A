@@ -12,7 +12,7 @@ class PayRoll {
         float payRate;//pay rate
         int wrkHour;//work hours
         float tPay;//total pay
-        void settPay();//set the total pay
+        void setTPay();//set the total pay
     public:
         PayRoll();//Constructor 1
         PayRoll(float,int);//Constructor 2
