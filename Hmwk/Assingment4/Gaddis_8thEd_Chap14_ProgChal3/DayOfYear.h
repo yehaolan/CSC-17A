@@ -15,6 +15,7 @@ class DayOfYear {
         static void tran(int);//translate
     public: 
         DayOfYear(int);
+        DayOfYear(string,int);
         static void print();//output result
 };
 
