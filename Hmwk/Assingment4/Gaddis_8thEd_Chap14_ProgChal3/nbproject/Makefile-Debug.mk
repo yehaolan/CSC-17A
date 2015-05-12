@@ -35,7 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/DayOfYear.o \
+	${OBJECTDIR}/DayOfYr.o \
 	${OBJECTDIR}/main.o
 
 
@@ -63,10 +63,10 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gaddis_8thed_chap14_progchal3: ${OBJE
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/gaddis_8thed_chap14_progchal3 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/DayOfYear.o: DayOfYear.cpp 
+${OBJECTDIR}/DayOfYr.o: DayOfYr.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DayOfYear.o DayOfYear.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DayOfYr.o DayOfYr.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
