@@ -5,7 +5,7 @@
  * Purpose:Homework assignment4
  */
 
-//Library includes Here!!!
+//System Library
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -19,7 +19,10 @@ using namespace std;
 #include "info.h"
 #include "Inventory.h"
 #include "Numbers.h"
-
+#include "DayOfYear.h"
+#include "DayOfYr.h"
+#include "NumDays.h"
+#include "FeetInches.h"
 
 //Function prototypes
 void pg1();//Gaddis_8thEd_Chap13_ProgChal1
@@ -103,16 +106,13 @@ int main(int argv,char *argc[]){
     return 0;//If midterm not perfect, return something other than 1
 }
 
-
-
-
-
 void pg1(){
     int year;
     int month;
     int day;
     bool invalid;
-    int dyInMth[13]={0,31,28,31,30,31,30,31,31,30,31,30,31};
+    int dyInMth[13]={0,31,28,31,30,31,30,31,31,30,31,30,31};//day in months
+    //Prompt user for year, month, and day
     cout<<"Please input a date"<<endl;
     cout<<"Year: ";
     cin>>year;
@@ -135,7 +135,7 @@ void pg1(){
     }while(invalid);
     
     Date date(year,month,day);
-    date.pntDate();
+    date.pntDate();//print out the day in format
     cout<<"Change the day to 1997/6/18"<<endl;
     date.setYear(1997);
     date.setMnth(6);
@@ -144,27 +144,30 @@ void pg1(){
 }
 
 void pg2(){
+    //create 3 different object
     info me("Benjamin Ye","12345 15th st","6335245424",17);
     info uncle("Kelvin","54326 16th st","124165943",26);
     info cousin("Nick","1044 14th st","752824452",20);
-    me.pntInfo();
-    me.setAge(18);
+    me.pntInfo();//print out my info
+    me.setAge(18);//set my age to 18
     cout<<"Change the age to 18..."<<endl;
-    me.pntInfo();
-    cousin.pntInfo();
+    me.pntInfo();//print mine again
+    cousin.pntInfo();//print my cousin
     cout<<"Change the address..."<<endl;
-    cousin.setAddr("1044 Spruce St");
-    cousin.pntInfo();
-    uncle.pntInfo();
+    cousin.setAddr("1044 Spruce St");//change address
+    cousin.pntInfo();//print again
+    uncle.pntInfo();//print my uncle's
     cout<<"Change the number..."<<endl;
-    uncle.setNum("6262559824");
-    uncle.pntInfo();
+    uncle.setNum("6262559824");//change phone number
+    uncle.pntInfo();//print again
 }
 
 void pg3(){
+    //create 3 objects
     RetailItem item1("Jacket",12,59.95);
     RetailItem item2("Jeans",40,34.95);
     RetailItem item3("Shirt",20,24.95);
+    //print in a table
     cout<<"Description"<<"   "<<"Units on hand"<<"   Price"<<endl;
     item1.pntItem();
     item2.pntItem();
@@ -176,6 +179,7 @@ void pg3(){
     cout<<"Change the Description of item3"<<endl;
     item3.setDesc("Pants");
     cout<<"After changing the information of 3 items"<<endl<<endl;
+    //print again
     cout<<"Description"<<"   "<<"Units on hand"<<"   Price"<<endl;
     item1.pntItem();
     item2.pntItem();
@@ -193,16 +197,18 @@ void pg4(){
 }
 
 void pg5(){
-    int size=7;
-    float p;
-    int n;
+    int size=7;//size of pay roll
+    float p;//Hour pay rate
+    int n;//number of working hour
     PayRoll *arr=new PayRoll[size];
+    //print the empty file
     cout<<"Calling the Constructor 1"<<endl;
     for(int i=0;i<size;i++) {
         cout<<"#"<<(i+1)<<endl;
         arr[i].pntRsut();
     }
     cout<<"Please fill in..."<<endl;
+    //prompt user to fill in
     for(int i=0;i<size;i++) {
         cout<<endl<<"#"<<(i+1)<<endl;
         cout<<"Hourly pay rate: $";
@@ -212,6 +218,7 @@ void pg5(){
         arr[i].setPyRt(p);
         arr[i].setWkHr(n);
     }
+    //output the 7 pay roll
     cout<<"Output 7 pay roll..."<<endl;
     for(int i=0;i<size;i++) {
         cout<<endl<<"#"<<(i+1)<<endl;
@@ -230,16 +237,77 @@ void pg6(){
 }
 
 void pg7(){
-        cout<<"In pg # 7"<<endl<<endl;
+    //set seed for random number
+    srand(static_cast<unsigned int>(time(0)));
+    int n=rand()%365+1;
+    cout<<"Randomly choose a day"<<endl;
+    cout<<"It is day #"<<n<<endl;
+    
+    DayOfYear dd(n);
+    DayOfYear::print();
+    
 }
 
 void pg8(){
-        cout<<"In pg # 8"<<endl<<endl;
+    cout<<"Initial a day to Dec 31st"<<endl;
+    DayOfYr dd("December",31);
+    DayOfYr::print();
+    cout<<endl<<"After using postfix ++"<<endl;
+    dd++;
+    DayOfYr::print();
+    cout<<endl<<"After using prefix ++"<<endl;
+    ++dd;
+    DayOfYr::print();
+    cout<<endl<<"After using postfix --"<<endl;
+    dd--;
+    DayOfYr::print();
+    cout<<endl<<"After using prefix --"<<endl;
+    --dd;
+    DayOfYr::print();
 }
 void pg9(){
-        cout<<"In pg # 9"<<endl<<endl;
+    NumDays aa(12);
+    cout<<"First worker: "; 
+    aa.pntDays();
+    
+    NumDays bb(20);
+    cout<<"Second worker: "; 
+    bb.pntDays();
+    
+    NumDays cc=aa+bb;
+    cout<<"Third worker(1st+2nd): ";
+    cc.pntDays();
+    
+    aa++;
+    cout<<endl<<"After using postfix++ to 1st worker..."<<endl;
+    aa.pntDays();
+    
+    bb--;
+    cout<<endl<<"After using postfix-- to 2nd worker..."<<endl;
+    bb.pntDays();
+    
+    ++aa;
+    cout<<endl<<"After using prefix++ to 1st worker..."<<endl;
+    aa.pntDays();
+    
+    --bb;
+    cout<<endl<<"After using prefix-- to 2nd worker..."<<endl;
+    bb.pntDays();
+    
 }
 
 void pg10(){
-        cout<<"In pg # 10"<<endl<<endl;
+    //declare 2 length
+    FeetInches length1(1,4);
+    cout<<"#1:";
+    length1.pntLnth();
+    FeetInches length2(2,4);
+    cout<<"#2:";
+    length2.pntLnth();
+    if(length1<=length2) cout<<"length1<=length2"<<endl;
+    cout<<endl<<"Change length 1 to 3 feet"<<endl;
+    length1.setFeet(3);
+    if(length1>=length2) cout<<"length1>=length2"<<endl;
+    if(length1<=length2) cout<<endl<<"length1==length2"<<endl;
+    else cout<<endl<<"They are not equal"<<endl;
 }

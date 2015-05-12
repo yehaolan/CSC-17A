@@ -17,13 +17,13 @@ class RetailItem {
         float price;//retail price
     public:
         RetailItem(string,int,float);
-        void setDesc(string);
-        void setUnit(int);
-        void setPric(float);
-        string getDesc() const {return desc;}
-        int getUnit() const {return numUnit;}
-        float getPric() const {return price;}
-        void pntItem() const;
+        void setDesc(string);//set the description
+        void setUnit(int);//set the unit in stock
+        void setPric(float);//set the price
+        string getDesc() const {return desc;}//get description
+        int getUnit() const {return numUnit;}//get number of stock
+        float getPric() const {return price;}//get price
+        void pntItem() const;//print item info
 };
 
 #endif	/* RETAILITEM_H */

@@ -12,11 +12,14 @@ using namespace std;
 
 string Numbers::res="";
 
+//Constructor 1
 Numbers::Numbers() {
     number=0;
     trans(number);
     cout<<"HIIH"<<endl;
 }
+
+//Constructor 2
 Numbers::Numbers(int n) {
     if(n<0||n>9999) {
         cout<<"Out of range and set the number to 0"<<endl;
@@ -28,6 +31,7 @@ Numbers::Numbers(int n) {
     }
 }
 
+//translate into English
 void Numbers::trans(int num) {
     res="";
     string lessThan20[20]={"zero","one","two","three","four","five","six",
@@ -56,6 +60,7 @@ void Numbers::trans(int num) {
     }
 }
 
+//print out result
 void Numbers::print() {
     cout<<"The result is "<<res<<endl;
 }

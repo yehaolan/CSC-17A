@@ -19,7 +19,7 @@ class Date {
         void setYear(int yr);
         void setMnth(int mt);
         void setDay(int dy);
-        void pntDate();
+        void pntDate();//print date
 };
 
 #endif	/* DATE_H */
