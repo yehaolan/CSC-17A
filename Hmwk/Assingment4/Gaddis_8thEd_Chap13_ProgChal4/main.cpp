@@ -6,7 +6,6 @@
  */
 
 #include <iostream>
-#include <cstring>
 using namespace std;
 
 #include "info.h"
