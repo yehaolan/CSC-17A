@@ -1,15 +1,15 @@
 /* 
  * File:   main.cpp
- * Author: Haolan Ye
- * Created on May 17, 2015, 8:40 AM
- * Purpose: Worker
+ * Author: Haolan Ye(Benjamin)
+ * Created on May 22, 2015, 8:08 AM
+ * Purpose: ShiftSupervisor
  */
 
 #include <iostream>
 #include <string>
 using namespace std;
 
-#include "ProductionWorker.h"
+#include "ShiftSupervisor.h"
 
 bool checkDay(int,int,int);
 
@@ -20,8 +20,8 @@ int main(int argc, char** argv) {
     int year;
     int month;
     int day;
-    int shift;
-    float pr;//pay rate
+    int annual;
+    int bonus;
     bool invalid;//correct date
     //get the name and number
     cout<<"Name: ";
@@ -36,22 +36,28 @@ int main(int argc, char** argv) {
         invalid=checkDay(year,month,day);
         if(invalid) cout<<"Invalid date"<<endl;
     } while(invalid);
-    //get shift
+    //get annual salary
     do {
-        cout<<"Shift(1 is day, 2 is night): ";
-        cin>>shift;
-        if(shift!=1&&shift!=2) cout<<"Invalid input"<<endl;
-    }while(shift!=1&&shift!=2);
-    //get pay rate
+        cout<<"Annual Salary: $";
+        cin>>annual;
+        if(annual<0) cout<<"Invalid input"<<endl;
+    }while(annual<0);
+    
+    //get Bonus
     do {
-        cout<<"Hourly Pay Rate: $";
-        cin>>pr;
-        if(pr<0) cout<<"Invalid input"<<endl;
-    }while(pr<0);
+        cout<<"Bonus: $";
+        cin>>bonus;
+        if(bonus<0) cout<<"Invalid input"<<endl;
+    }while(bonus<0);
     
     //Test object
-    ProductionWorker ben(name,id,year,month,day,shift,pr);
-    cout<<"Worker information: "<<endl;
+    ShiftSupervisor ben(name,id,year,month,day,annual,bonus);
+    cout<<endl<<"Worker information: "<<endl;
+    ben.pntInfo();//print out info
+    //reset annual salary and bonus
+    ben.setAnn(100);
+    ben.setBon(123);
+    cout<<endl<<"Worker information after setting: "<<endl;
     ben.pntInfo();//print out info
     return 0;
 }
@@ -66,3 +72,4 @@ bool checkDay(int y,int m,int d) {
             invalid=false;
     return invalid;
 }
+
