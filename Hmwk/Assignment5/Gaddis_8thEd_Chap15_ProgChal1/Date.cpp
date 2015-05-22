@@ -10,12 +10,14 @@
 #include <string>
 using namespace std;
 
+//Default constructor
 Date::Date() {
     this->yr=2000;
     this->mt=1;
     this->dy=1;
 }
 
+//constructor
 Date::Date(int yr, int mt, int dy) {
     this->yr=yr;
     this->mt=mt;

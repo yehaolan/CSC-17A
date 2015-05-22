@@ -8,18 +8,22 @@
 using namespace std;
 #include "Employee.h"
 #include "Date.h"
+
+//Default constructor
 Employee::Employee() {
     name="";
     num="";
     dt=Date(2000,1,1);
 }
 
+//constructor 1
 Employee::Employee(string n, string numb,Date d) {
     name=n;
     num=numb;
     dt=d;
 }
 
+//constructor 2
 Employee::Employee(string n, string numb,int y,int m,int d) {
     name=n;
     num=numb;

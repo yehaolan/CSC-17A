@@ -25,7 +25,7 @@ class Employee {
         string getName() const {return name;}//return name
         string getNum() const {return num;}//return number
         Date getDate() const {return dt;}//print the hire date
-        void pntInfo() const;
+        void pntInfo() const;//print out the information
 };
 
 #endif	/* EMPLOYEE_H */

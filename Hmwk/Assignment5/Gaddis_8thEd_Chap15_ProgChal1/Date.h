@@ -14,8 +14,8 @@ class Date {
         int mt;//month
         int dy;//day
     public:
-        Date();
-        Date(int yr,int mt,int dy);
+        Date();//Default constructor
+        Date(int yr,int mt,int dy);//constructor
         void setYear(int yr);
         void setMnth(int mt);
         void setDay(int dy);

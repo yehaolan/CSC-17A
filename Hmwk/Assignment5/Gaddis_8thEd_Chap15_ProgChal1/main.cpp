@@ -1,8 +1,8 @@
 /* 
  * File:   main.cpp
- * Author: admin
- *
+ * Author: Haolan Ye
  * Created on May 17, 2015, 8:40 AM
+ * Purpose: Worker
  */
 
 #include <iostream>
@@ -14,6 +14,7 @@ using namespace std;
 bool checkDay(int,int,int);
 
 int main(int argc, char** argv) {
+    //declare variables of worker
     string name;
     string id;
     int year;
@@ -22,11 +23,12 @@ int main(int argc, char** argv) {
     int shift;
     float pr;//pay rate
     bool invalid;//correct date
+    //get the name and number
     cout<<"Name: ";
     getline(cin,name);
     cout<<"Number: ";
     cin>>id;
-    
+    //get the hire date
     do {
         invalid=false;
         cout<<"Hire date(yy mm dd): ";
@@ -34,21 +36,22 @@ int main(int argc, char** argv) {
         invalid=checkDay(year,month,day);
         if(invalid) cout<<"Invalid date"<<endl;
     } while(invalid);
-    
+    //get shift
     do {
         cout<<"Shift(1 is day, 2 is night): ";
         cin>>shift;
         if(shift!=1&&shift!=2) cout<<"Invalid input"<<endl;
     }while(shift!=1&&shift!=2);
+    //get pay rate
     do {
         cout<<"Hourly Pay Rate: $";
         cin>>pr;
         if(pr<0) cout<<"Invalid input"<<endl;
     }while(pr<0);
     
-    
+    //Test object
     ProductionWorker ben(name,id,year,month,day,shift,pr);
-    ben.pntInfo();
+    ben.pntInfo();//print out info
     return 0;
 }
 
