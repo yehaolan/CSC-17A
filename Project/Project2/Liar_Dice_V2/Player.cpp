@@ -36,6 +36,7 @@ char *Player::rolDice(int n) {
     return dice;
 }
 
+//print out the dices
 void Player::pntDice() {
     for(int i=0;i<5;i++) {
         cout<<dices[i]<<" ";

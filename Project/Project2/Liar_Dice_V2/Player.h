@@ -13,7 +13,6 @@ class Player {
         int order;//the order of the game
     protected:
         char *dices;
-        
         char *rolDice(int);//roll dice
         char *getDice() const {return dices;}
     public: 
@@ -21,8 +20,7 @@ class Player {
         ~Player();//Destructor
         void chalng();
         void bid();
-        
-        int getOrdr() const;//get the order
+        int getOrdr() const {return order;}//get the order
         void pntDice();//print out the dice
         
 };
