@@ -9,14 +9,18 @@
 #define	PLAYER_H
 
 class Player {
+    private:
+        int order;//the order of the game
     protected:
         char *dices;
-        int order;//the order of the game
-        char* rolDice();//roll dice
-        char* getDice();
+        
+        char *rolDice(int);//roll dice
+        char *getDice() const {return dices;}
     public: 
-        Player();//Constructor
+        Player(int);//Constructor
         ~Player();//Destructor
+        void chalng();
+        void bid();
         
         int getOrdr() const;//get the order
         void pntDice();//print out the dice
