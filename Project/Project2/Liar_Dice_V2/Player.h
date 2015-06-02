@@ -19,19 +19,22 @@ class Player {
         static char faceCd;//face Called
         static int numCd;//number of dice called
         static int round;//round #
-        static bool wild;
+        static bool wild;//wild
     public: 
-        Player(int);//Constructor
+        Player();//Constructor
         ~Player();//Destructor
+        void init();//initialize the variables of the game
         void slOrder(int);//randomly select the order of player(not AI)
-        void chalng(int &);
-        void bid(int &);
+        void chalng(int &);//player challenge
+        void bid(int &);//player bid
         int getOrdr()  const {return order;}//get the order
         int getNumP()  const {return numPlyr;}//get number of player
         int getNum()   const {return numCd;}//get number called
+        int getRond()  const {return round;}//get the # of round
+        bool getWild() const {return wild;}//get the wild(true or false)
         char getFace() const {return faceCd;}//get the face of dice called
         void pntDice();//print out the dice
-        static void renew(char,int);//renew face and number of dices bided
+        static void renew(char,int,bool);//After bidding, renew face and number of dices
 };
 
 #endif	/* PLAYER_H */

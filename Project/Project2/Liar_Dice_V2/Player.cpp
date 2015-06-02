@@ -18,14 +18,12 @@ int Player::numPlyr=0;
 int Player::round=0;
 int Player::numCd;
 char Player::faceCd='0';
-bool Player::wild=false;
+bool Player::wild=true;
 
 //Constructor
-Player::Player(int n) {
+Player::Player() {
     srand(static_cast<unsigned int>(time(0)));
     dices=rolDice(5);
-    order=rand()%n;//random get the order
-    numCd=n*3/2;
     numPlyr++;
 }
 
@@ -34,6 +32,13 @@ Player::~Player() {
     delete []dices;//deallocate memory
 }
 
+//initialize the game variable
+void Player::init() {
+    numCd=numPlyr*3/2;
+    order=rand()%numPlyr;
+}
+
+//select the order of the game
 void Player::slOrder(int n) {
     order=rand()%n;
 }
@@ -55,12 +60,16 @@ void Player::pntDice() {
     }
 }
 
-void Player::renew(char f, int n) {
+//After bidding, renew the face and number of dice
+void Player::renew(char f, int n,bool w) {
     faceCd=f;
     numCd=n;
+    if(wild)
+        wild=w;
     round++;
 }
 
+//player challenge
 void Player::chalng(int &open) {
     string ans="N";//answer of open or not
     //prompt user for challenge or not
@@ -79,21 +88,27 @@ void Player::chalng(int &open) {
     }
 }
 
+//player bid
 void Player::bid(int &open) {
-    string bStr;
+    //declare variable
+    string bStr;//string that player input
+    //temp variables of number of dice, face, and wild
     int numTemp;
     char fceTemp;
-    bool invalid;
+    bool widTemp;
+    bool invalid;//invalid
     //when answer is open
     if(open==-1) { //when answer is not open
         cin.ignore();
         do {
+            //initialize variables
             numTemp=0;
             fceTemp=' ';
+            widTemp=true;
             invalid=false;
             if(round<=2) {
             cout<<"Your bidding: ";
-            cout<<"format:\"3 4\"(means u bid 3 4s,and 1s are wild) or \"4n5\"(means you bid 4 5s only, and 1s are not wild)"<<endl;
+            cout<<"format:\"3 4\"(means u bid 3 4's,and 1s are wild) or \"4n5\"(means you bid 4 5's only, and 1s are not wild)"<<endl;
             cout<<"First bid must be >= 1.5*players"<<endl;
             }
             cout<<"Your bidding: ";
@@ -127,12 +142,13 @@ void Player::bid(int &open) {
             if(numTemp>numPlyr*5) invalid=true;
             if(invalid) cout<<"Invalid input!!"<<endl;
         } while(invalid);
-        
-        renew(fceTemp,numTemp);
-        if(bStr.at(bStr.length()-2)=='n'||bStr.at(bStr.length()-2)=='N') wild=false;
-        if(bStr.at(bStr.length()-1)=='1') wild=false;
-        cout<<"You bid "<<numCd<<"  "<<faceCd<<"s";
-        if(wild) cout<<" "<<endl;
+        //determine wild or not
+        if(bStr.at(bStr.length()-2)=='n'||bStr.at(bStr.length()-2)=='N') widTemp=false;
+        if(bStr.at(bStr.length()-1)=='1') widTemp=false;
+        //output what player bid
+        cout<<"You bid "<<numCd<<"  "<<faceCd<<"'s";
+        if(widTemp) cout<<" "<<endl;
         else cout<<" only"<<endl;
+        renew(fceTemp,numTemp,widTemp);//renew the static variable in Player class
     }
 }

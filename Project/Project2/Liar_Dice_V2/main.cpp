@@ -16,6 +16,7 @@ using namespace std;
 
 //User libraries
 #include "Player.h"
+#include "AI.h"
 
 //Global Constants
 
@@ -104,11 +105,27 @@ int main(int argc, char** argv) {
     delete []copy;
     //Exit stage right
     */
-    
-    Player p1(4);
+    int open=-1;
+    Player p1(3);
+    Player p2(3);
+    cout<<"Round: #"<<p1.getRond()<<endl;
+    cout<<"Wild: "<<p1.getWild()<<endl;
     cout<<p1.getNumP()<<endl;
+    cout<<p1.getFace()<<endl;
+    cout<<p1.getNum()<<endl;
+    p1.pntDice();
     
-    
+    p1.bid(open);
+    cout<<"Round: #"<<p1.getRond()<<endl;
+    cout<<p1.getFace()<<endl;
+    cout<<p1.getNum()<<endl;
+    cout<<"Wild: "<<p1.getWild()<<endl;
+    cout<<endl<<endl;
+    p1.bid(open);
+    cout<<"Round: #"<<p1.getRond()<<endl;
+    cout<<p1.getFace()<<endl;
+    cout<<p1.getNum()<<endl;
+    cout<<"Wild: "<<p1.getWild()<<endl;
     return 0;
 }
 

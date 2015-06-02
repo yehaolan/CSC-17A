@@ -12,8 +12,13 @@
 
 class AI : public Player {
     private:
-        
+        vector<char> exist;
+        vector<char> nExist;
     public:
+        AI();
+        //there is no destructor in AI class because its dices will be deallocate by the destructor of Player class
+        void chalng(int &);
+        void bid(int &);
 };
 
 #endif	/* AI_H */
