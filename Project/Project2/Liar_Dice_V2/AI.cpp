@@ -23,7 +23,7 @@ AI::AI() {
     nExist=gtNtEs();
 }
 
-void AI::bid(int &open) {
+void AI::bid() {
     //bid
     if(open==-1) {
         char faceTem;
@@ -39,13 +39,12 @@ void AI::bid(int &open) {
                     } while(faceTem=='1');
                 }
 
-                if(faceTem<=faceCd) numTem;
+                if(faceTem<=faceCd) numTem++;
                 //faceCd=faceTem;
 
 
             } else { //lie 2/5
                 //get the face of dice that AI doesn't have
-                char faceTem;
                 do {
                     faceTem=nExist[rand()%nExist.size()];
                 } while(faceTem=='1');
@@ -53,6 +52,13 @@ void AI::bid(int &open) {
                 //faceCd=faceTem;
             }
         } else {
+            
+            
+            //I can lie
+            //lie
+            //lie
+            
+            
             faceTem=getMtFr();
             if(faceTem<=faceCd) numTem++;
         }
@@ -74,7 +80,7 @@ int AI::getQuan() {
     return num+ones;
 }
 
-void AI::chalng(int &open) {
+void AI::chalng() {
      if(round!=0&&open==-1) {
         //determine challenge or not
         if(wild) {
@@ -187,7 +193,7 @@ void AI::pntNtEs() {
 }
 
 void AI::pntDice() {
-    cout<<"AI: ";
+    cout<<"AI #"<<getOrdr()<<":  ";
     for(int i=0;i<5;i++) {
         cout<<dices[i]<<" ";
     }

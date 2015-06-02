@@ -14,6 +14,7 @@ using namespace std;
 //user library
 #include "Player.h"
 
+int Player::open=-1;
 int Player::numPlyr=0;
 int Player::round=0;
 int Player::numCd;
@@ -38,10 +39,6 @@ void Player::init() {
     order=0;
 }
 
-//select the order of the game
-void Player::slOrder(int n) {
-    order=rand()%n;
-}
 
 //roll the dice
 char *Player::rolDice(int n) {
@@ -67,11 +64,10 @@ void Player::renew(char f, int n,bool w) {
     numCd=n;
     if(wild)
         wild=w;
-    round++;
 }
 
 //player challenge
-void Player::chalng(int &open) {
+void Player::chalng() {
     string ans="N";//answer of open or not
     //prompt user for challenge or not
     if(round!=0&&open==-1) {
@@ -90,7 +86,7 @@ void Player::chalng(int &open) {
 }
 
 //player bid
-void Player::bid(int &open) {
+void Player::bid() {
     //declare variable
     string bStr;//string that player input
     //temp variables of number of dice, face, and wild
@@ -151,5 +147,6 @@ void Player::bid(int &open) {
         if(widTemp) cout<<" "<<endl;
         else cout<<" only"<<endl;
         renew(fceTemp,numTemp,widTemp);//renew the static variable in Player class
+        round++;
     }
 }

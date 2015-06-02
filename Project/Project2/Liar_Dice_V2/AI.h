@@ -12,7 +12,6 @@
 class AI : public Player {
     private:
         static int numAI;
-        int order;
         vector<char> exist;
         vector<char> nExist;
         vector<char> gtEs();
@@ -23,9 +22,8 @@ class AI : public Player {
         AI();
         int getNAI() const {return numAI;}
         //there is no destructor in AI class because its dices will be deallocate by the destructor of Player class
-        void chalng(int &);
-        void bid(int &);
-        
+        void chalng();
+        void bid();
         vector<char> getEs() const {return exist;}
         vector<char> getNtEs() const {return nExist;}
         void pntEs();

@@ -9,11 +9,11 @@
 #define	PLAYER_H
 
 class Player {
-    private:
-        int order;//the order of the game
     protected:
+        int order; //0 is player, 1 is AI#1, 2 is AI#2
         char *dices; //dices of player
         char *rolDice(int);//roll dice
+        static int open;
         static int numPlyr;//number of player
         static int numCd;//number of dice called
         static char faceCd;//face Called
@@ -24,10 +24,10 @@ class Player {
         Player();//Constructor
         ~Player();//Destructor
         void init();//initialize the variables of the game
-        void chalng(int &);//player challenge
-        void bid(int &);//player bid
+        void chalng();//player challenge
+        void bid();//player bid
         int  getOrdr() const {return order;}//get the order
-        char getDice() const {return dices;}//get all dices
+        char* getDice() const {return dices;}//get all dices
         int  getNumP() const {return numPlyr;}//get number of player
         int  getNum()  const {return numCd;}//get number called
         char getFace() const {return faceCd;}//get the face of dice called
