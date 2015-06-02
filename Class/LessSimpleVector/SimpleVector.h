@@ -80,7 +80,7 @@ SimpleVector<T>::SimpleVector(const SimpleVector &obj)
    if (aptr == 0)
       memError();
       
-   // Copy the elements of obj's array.
+   // Copy the elements of object's array.
    for(int count = 0; count < arraySize; count++)
       *(aptr + count) = *(obj.aptr + count);
 }

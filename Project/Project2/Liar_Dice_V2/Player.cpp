@@ -2,7 +2,7 @@
  * File:   Player.cpp
  * Author: Haolan Ye(Benjamin)
  * Created on May 31, 2015, 10:29 AM
- * Purpose: CSC-17A Project 2 Liar Dice V2 source file 
+ * Purpose: CSC-17A Project 2 Liar Dice V2 player source file 
  */
 
 //System libraries
@@ -35,7 +35,7 @@ Player::~Player() {
 //initialize the game variable
 void Player::init() {
     numCd=numPlyr*3/2;
-    order=rand()%numPlyr;
+    order=0;
 }
 
 //select the order of the game
@@ -55,6 +55,7 @@ char *Player::rolDice(int n) {
 
 //print out the dices
 void Player::pntDice() {
+    cout<<"Player: ";
     for(int i=0;i<5;i++) {
         cout<<dices[i]<<" ";
     }

@@ -106,26 +106,25 @@ int main(int argc, char** argv) {
     //Exit stage right
     */
     int open=-1;
-    Player p1(3);
-    Player p2(3);
+    Player p1;
+    Player p2;
+    AI a;
+    p1.init();
     cout<<"Round: #"<<p1.getRond()<<endl;
     cout<<"Wild: "<<p1.getWild()<<endl;
-    cout<<p1.getNumP()<<endl;
+    cout<<"Number of player: "<<p1.getNumP()<<endl;
     cout<<p1.getFace()<<endl;
     cout<<p1.getNum()<<endl;
     p1.pntDice();
     
-    p1.bid(open);
-    cout<<"Round: #"<<p1.getRond()<<endl;
-    cout<<p1.getFace()<<endl;
-    cout<<p1.getNum()<<endl;
-    cout<<"Wild: "<<p1.getWild()<<endl;
-    cout<<endl<<endl;
-    p1.bid(open);
-    cout<<"Round: #"<<p1.getRond()<<endl;
-    cout<<p1.getFace()<<endl;
-    cout<<p1.getNum()<<endl;
-    cout<<"Wild: "<<p1.getWild()<<endl;
+    cout<<endl;
+    cout<<"Number of AI: "<<a.getNAI()<<endl;
+    
+    cout<<"Number of player: "<<p1.getNumP()<<endl;
+    cout<<"AI's dices:"<<endl;
+    a.pntDice();
+    a.pntEs();
+    a.pntNtEs();
     return 0;
 }
 
