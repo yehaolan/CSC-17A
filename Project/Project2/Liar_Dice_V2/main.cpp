@@ -37,6 +37,7 @@ void rdFile(Player *,int);//read the file
 
 //Execution begins here
 int main(int argc, char** argv) {
+    /*
     //set seed for rolling dice
     srand(static_cast<unsigned int>(time(0)));
     int numPyr;//number of player
@@ -102,9 +103,16 @@ int main(int argc, char** argv) {
     delete []players;
     delete []copy;
     //Exit stage right
+    */
+    
+    Player p1(4);
+    cout<<p1.getNumP()<<endl;
+    
+    
     return 0;
 }
 
+/*
 void wtFile(Player *p,int n) {
     fstream out;
     cout<<"Write to the file..."<<endl;
@@ -404,3 +412,4 @@ void result(int num,char face,int numPyr,Player *players,int open,bool w) {
         else cout<<"AI #"<<open<<"'s challenge succeed"<<endl;
     }
 }
+*/

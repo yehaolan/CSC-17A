@@ -14,16 +14,26 @@ using namespace std;
 //user library
 #include "Player.h"
 
+int Player::numPlyr=0;
+int Player::numCd;
+char Player::faceCd='0';
+
 //Constructor
 Player::Player(int n) {
     srand(static_cast<unsigned int>(time(0)));
     dices=rolDice(5);
     order=rand()%n;//random get the order
+    numCd=n*3/2;
+    numPlyr++;
 }
 
 //Destructor
 Player::~Player() {
     delete []dices;//deallocate memory
+}
+
+Player::order(int n) {
+    order=rand()%n;
 }
 
 //roll the dice
@@ -43,3 +53,15 @@ void Player::pntDice() {
     }
 }
 
+void Player::renew(char f, int n) {
+    faceCd=f;
+    numCd=n;
+}
+
+void Player::chalng() {
+    
+}
+
+void Player::bid() {
+    
+}
