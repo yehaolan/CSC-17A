@@ -12,18 +12,20 @@ class Player {
     private:
         int order;//the order of the game
     protected:
-        char *dices;
+        char *dices; //dices of player
         char *rolDice(int);//roll dice
-        char *getDice() const {return dices;}
-        static int numPlyr;
+        char *getDice() const {return dices;} //get all dices
+        static int numPlyr;//number of player
         static char faceCd;//face Called
         static int numCd;//number of dice called
+        static int round;//round #
+        static bool wild;
     public: 
         Player(int);//Constructor
         ~Player();//Destructor
-        void order(int);//randomly select the order of player(not AI)
-        void chalng();
-        void bid();
+        void slOrder(int);//randomly select the order of player(not AI)
+        void chalng(int &);
+        void bid(int &);
         int getOrdr()  const {return order;}//get the order
         int getNumP()  const {return numPlyr;}//get number of player
         int getNum()   const {return numCd;}//get number called
