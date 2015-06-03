@@ -8,6 +8,8 @@
 
 //System libraries
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include <vector>
 using namespace std;
 
@@ -71,6 +73,7 @@ void AI::bid() {
         if(wild) cout<<" "<<endl;
         else cout<<" only"<<endl;
     }
+    round++;
 }
 
 //AI challenge
@@ -198,4 +201,12 @@ void AI::pntDice() {
         cout<<dices[i]<<" ";
     }
     cout<<endl;
+}
+
+void AI::operator =(const AI& right) {
+    delete []dices;
+    dices=new char[5];
+    for(int i=0;i<5;i++) {
+        dices[i]=right.dices[i];
+    }
 }

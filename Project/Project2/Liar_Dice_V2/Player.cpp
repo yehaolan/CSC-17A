@@ -23,7 +23,6 @@ bool Player::wild=true;
 
 //Constructor
 Player::Player() {
-    srand(static_cast<unsigned int>(time(0)));
     dices=rolDice(5);
     numPlyr++;
 }

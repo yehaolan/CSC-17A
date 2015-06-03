@@ -28,7 +28,7 @@ class AI : public Player {
         void pntEs(); //print the dices that exist
         void pntNtEs();//print the dices that don't exist
         void pntDice();//print AI's dices
-        
+        void operator=(const AI &);
         
 };
 

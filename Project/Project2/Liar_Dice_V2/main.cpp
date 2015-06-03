@@ -57,7 +57,15 @@ int main(int argc, char** argv) {
     srand(static_cast<unsigned int>(time(0)));
     int np=getNP();//ask number of player
     Player p1;
+    //AI a1;
+    //AI a2;
+    //const int SIZE=2;
+    //p1.setNumP(np);
+    //if(np==3) a[np-2]=a2;
+    //AI a[SIZE]={a1,a2};
+    
     AI *a=new AI[np-1];
+    
     //vector<AI> a;
     //a.push_back(a1);
     
@@ -95,6 +103,15 @@ int main(int argc, char** argv) {
     
     result(p1,np-1,a);
     cout<<"The end of main"<<endl;
+    
+    //deallocate memory
+    /*
+    for(int i=0;i<np-1;i++) {
+        delete []a[i].getDice();
+    }
+    delete []a;
+    */
+    
     //Exit stage right
     return 0;
 }
@@ -166,8 +183,4 @@ Player *cretPyr(int n) {
     }
     return players;
 }
-
-
-
-
 */

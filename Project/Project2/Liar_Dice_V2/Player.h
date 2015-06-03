@@ -26,6 +26,7 @@ class Player {
         void init();//initialize the variables of the game
         void chalng();//player challenge
         void bid();//player bid
+        static int  setNumP(int n) {numPlyr= n;}
         int  getOrdr() const {return order;}//get the order
         int  getOpen() const {return open;}//get the player who challenge
         char* getDice() const {return dices;}//get all dices
