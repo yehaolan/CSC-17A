@@ -27,12 +27,14 @@ class Player {
         void chalng();//player challenge
         void bid();//player bid
         int  getOrdr() const {return order;}//get the order
+        int  getOpen() const {return open;}//get the player who challenge
         char* getDice() const {return dices;}//get all dices
         int  getNumP() const {return numPlyr;}//get number of player
         int  getNum()  const {return numCd;}//get number called
         char getFace() const {return faceCd;}//get the face of dice called
         int  getRond() const {return round;}//get the # of round
         bool getWild() const {return wild;}//get the wild(true or false)
+        int getQuan();
         void pntDice();//print out the dice
 };
 

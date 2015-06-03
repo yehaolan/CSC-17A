@@ -16,7 +16,6 @@ class AI : public Player {
         vector<char> nExist;
         vector<char> gtEs();
         vector<char> gtNtEs();
-        int getQuan();
         char getMtFr();
     public:
         AI();
@@ -26,6 +25,7 @@ class AI : public Player {
         void bid();
         vector<char> getEs() const {return exist;}
         vector<char> getNtEs() const {return nExist;}
+        
         void pntEs();
         void pntNtEs();
         void pntDice();

@@ -56,6 +56,7 @@ void Player::pntDice() {
     for(int i=0;i<5;i++) {
         cout<<dices[i]<<" ";
     }
+    cout<<endl;
 }
 
 //After bidding, renew the face and number of dice
@@ -64,6 +65,18 @@ void Player::renew(char f, int n,bool w) {
     numCd=n;
     if(wild)
         wild=w;
+}
+
+
+int Player::getQuan() {
+    int num=0;
+    int ones=0;
+    for(int i=0;i<5;i++) {
+        if(dices[i]==faceCd) num++;
+        if(wild&&faceCd!='1'&&dices[i]=='1') ones++;
+        //when 1 is not wild
+    }
+    return num+ones;
 }
 
 //player challenge
@@ -143,10 +156,11 @@ void Player::bid() {
         if(bStr.at(bStr.length()-2)=='n'||bStr.at(bStr.length()-2)=='N') widTemp=false;
         if(bStr.at(bStr.length()-1)=='1') widTemp=false;
         //output what player bid
+        renew(fceTemp,numTemp,widTemp);//renew the static variable in Player class
         cout<<"You bid "<<numCd<<"  "<<faceCd<<"'s";
         if(widTemp) cout<<" "<<endl;
         else cout<<" only"<<endl;
-        renew(fceTemp,numTemp,widTemp);//renew the static variable in Player class
+        
         round++;
     }
 }

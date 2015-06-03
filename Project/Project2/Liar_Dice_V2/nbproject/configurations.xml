@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>AI.h</itemPath>
+      <itemPath>AIVector.h</itemPath>
       <itemPath>Player.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -44,6 +45,8 @@
       </item>
       <item path="AI.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="AIVector.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Player.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Player.h" ex="false" tool="3" flavor2="0">
@@ -74,6 +77,8 @@
       <item path="AI.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="AI.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AIVector.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Player.cpp" ex="false" tool="1" flavor2="0">
       </item>

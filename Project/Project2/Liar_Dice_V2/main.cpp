@@ -21,20 +21,25 @@ using namespace std;
 //Global Constants
 
 //Function prototypes
-Player *cretPyr(int);//create player and roll dice
-char *rolDice(int);//roll 5 dices
-void dspDice(Player *);//display dice of a player
-void chalng(Player,int &,int);//Player challenge
-void bid(Player &,char &,int &,int,int &,int,bool &);//First player(you)
-void AIBid(int,Player &,char &,int &,int &,bool);//AI's turn
-void AIChalg(int &,Player,char,int,int,int,bool);//AI challenge
-int getQuan(Player,char,bool);//get the quantity of that face of dice in one AI's hand
-vector<char> getNtEs(char *);//get the dices that not exist one AI's hand
-vector<char> getEs(char *);//get the dices that exist one AI's hand
-char getMtFr(char *);//get the most frequent face of dices in one AI's hand
-void result(int,char,int,Player *,int,bool);//Determine who win and lost
+void result(Player,int,AI []);//Determine who win and lost
+
 void wtFile(Player *,int);//write the array of Player into file
 void rdFile(Player *,int);//read the file 
+
+
+
+//Player *cretPyr(int);//create player and roll dice
+//char *rolDice(int);//roll 5 dices
+//void dspDice(Player *);//display dice of a player
+//void chalng(Player,int &,int);//Player challenge
+//void bid(Player &,char &,int &,int,int &,int,bool &);//First player(you)
+//void AIBid(int,Player &,char &,int &,int &,bool);//AI's turn
+//void AIChalg(int &,Player,char,int,int,int,bool);//AI challenge
+
+
+
+
+
 
 //Execution begins here
 int main(int argc, char** argv) {
@@ -105,28 +110,66 @@ int main(int argc, char** argv) {
     delete []copy;
     //Exit stage right
     */
-    int open=-1;
+    int np;//number of player
+    cout<<"The number of player: ";
+    cin>>np;
     Player p1;
-    Player p2;
-    AI a;
+    AI *a=new AI[np-1];
+    //vector<AI> a;
+    //a.push_back(a1);
+    
+    cout<<"Number of player: "<<p1.getNumP()<<endl;
     p1.init();
-    cout<<"Round: #"<<p1.getRond()<<endl;
-    cout<<"Wild: "<<p1.getWild()<<endl;
-    cout<<"Number of player: "<<p1.getNumP()<<endl;
-    cout<<p1.getFace()<<endl;
-    cout<<p1.getNum()<<endl;
-    p1.pntDice();
-    
-    cout<<endl;
-    cout<<"Number of AI: "<<a.getNAI()<<endl;
-    
-    cout<<"Number of player: "<<p1.getNumP()<<endl;
-    cout<<"AI's dices:"<<endl;
-    a.pntDice();
-    a.pntEs();
-    a.pntNtEs();
+    do {
+        p1.pntDice();
+        p1.bid();
+        a[0].chalng();
+        a[0].bid();
+        p1.chalng();
+    } while(p1.getOpen()==-1);
+    result(p1,1,a);
+    cout<<"The end of main"<<endl;
     return 0;
 }
+
+void result(Player p,int numAI,AI *a) {
+    p.pntDice();
+    for(int i=0;i<numAI;i++) {
+        a[i].pntDice();
+    }
+    int ttDices=0;
+    ttDices+=p.getQuan();
+    for(int i=0;i<numAI;i++) {
+        ttDices+=a[i].getQuan();
+    }
+    cout<<"There are "<<ttDices<<" "<<p.getFace()<<"'s in all players"<<endl;
+    if(ttDices>=p.getNum()) {
+        if(p.getOpen()==0) cout<<"Your challenge failed"<<endl;
+        else cout<<"AI #"<<p.getOpen()<<"'s challenge failed"<<endl;
+    } else {
+        if(p.getOpen()==0) cout<<"Your challenge succeed"<<endl;
+        else cout<<"AI #"<<p.getOpen()<<"'s challenge succeed"<<endl;
+    }
+    cout<<"The end of the result"<<endl;
+}
+/*
+//print out the result
+void result(int num,char face,int numPyr,Player *players,int open,bool w) {
+    int total=0;
+    //count the face of all players
+    for(int i=0;i<numPyr;i++) {
+        total+=getQuan(players[i],face,w);
+    }
+    cout<<endl<<"Totally, there are "<<total<<" "<<face<<"s"<<endl;
+    if(total>=num) {
+        if(open==0) cout<<"Your challenge failed"<<endl;
+        else cout<<"AI #"<<open<<"'s challenge failed"<<endl;
+    } else {
+        if(open==0) cout<<"Your challenge succeed"<<endl;
+        else cout<<"AI #"<<open<<"'s challenge succeed"<<endl;
+    }
+}
+*/
 
 /*
 void wtFile(Player *p,int n) {
@@ -412,20 +455,5 @@ char getMtFr(char *dices) {
     return dices[indx];
 }
 
-//print out the result
-void result(int num,char face,int numPyr,Player *players,int open,bool w) {
-    int total=0;
-    //count the face of all players
-    for(int i=0;i<numPyr;i++) {
-        total+=getQuan(players[i],face,w);
-    }
-    cout<<endl<<"Totally, there are "<<total<<" "<<face<<"s"<<endl;
-    if(total>=num) {
-        if(open==0) cout<<"Your challenge failed"<<endl;
-        else cout<<"AI #"<<open<<"'s challenge failed"<<endl;
-    } else {
-        if(open==0) cout<<"Your challenge succeed"<<endl;
-        else cout<<"AI #"<<open<<"'s challenge succeed"<<endl;
-    }
-}
+
 */

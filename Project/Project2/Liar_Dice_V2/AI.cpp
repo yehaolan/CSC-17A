@@ -63,22 +63,12 @@ void AI::bid() {
             if(faceTem<=faceCd) numTem++;
         }
         renew(faceTem,numTem,wild);
-        cout<<"AI #"<<order<<" bid "<<numCd<<"  "<<faceCd<<"s";
+        cout<<"AI #"<<order<<" bid "<<numCd<<"  "<<faceCd<<"'s";
         if(wild) cout<<" "<<endl;
         else cout<<" only"<<endl;
     }
 }
 
-int AI::getQuan() {
-    int num=0;
-    int ones=0;
-    for(int i=0;i<5;i++) {
-        if(dices[i]==faceCd) num++;
-        if(wild&&faceCd!='1'&&dices[i]=='1') ones++;
-        //when 1 is not wild
-    }
-    return num+ones;
-}
 
 void AI::chalng() {
      if(round!=0&&open==-1) {
@@ -197,4 +187,5 @@ void AI::pntDice() {
     for(int i=0;i<5;i++) {
         cout<<dices[i]<<" ";
     }
+    cout<<endl;
 }
