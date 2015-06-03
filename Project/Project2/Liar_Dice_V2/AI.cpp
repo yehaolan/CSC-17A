@@ -6,23 +6,27 @@
  */
 
 
-
+//System libraries
 #include <iostream>
 #include <vector>
 using namespace std;
 
+//User library
 #include "AI.h"
 
-int AI::numAI=0;
+int AI::numAI=0; //initialize the static variable
 
+//Constructor
 AI::AI() {
     //cout<<"AI constructor!!!"<<endl;
+    cout<<"Here is the constructor of AI class"<<endl;
     dices=rolDice(5);
     order=++numAI;
     exist=gtEs();
     nExist=gtNtEs();
 }
 
+//AI bid
 void AI::bid() {
     //bid
     if(open==-1) {
@@ -69,7 +73,7 @@ void AI::bid() {
     }
 }
 
-
+//AI challenge
 void AI::chalng() {
      if(round!=0&&open==-1) {
         //determine challenge or not
@@ -99,6 +103,7 @@ void AI::chalng() {
     }
 }
 
+//get the most frequent face of dice in the dices
 char AI::getMtFr() {
     int *temp=new int[5];
     int cnt=1;//count for the dice
@@ -125,6 +130,7 @@ char AI::getMtFr() {
     return dices[indx];
 }
 
+//get the faces of dice that exist in AI's hand
 vector<char> AI::gtEs() {
     bool inside;
     vector<char> e;
@@ -139,6 +145,7 @@ vector<char> AI::gtEs() {
     return e;
 }
 
+//get the faces of dice that doesn't exist in AI's hand
 vector<char> AI::gtNtEs() {
     vector<char> ne;//not exist face of dice
     //initialize 6 elements from 1 to 6
@@ -166,6 +173,7 @@ vector<char> AI::gtNtEs() {
     return ne;//return the vector
 }
 
+//print the dices that exist
 void AI::pntEs() {
     cout<<endl<<"Exist: ";
     for(int i=0;i<exist.size();i++) {
@@ -174,6 +182,7 @@ void AI::pntEs() {
     cout<<endl;
 }
 
+//print the dices that don't exist
 void AI::pntNtEs() {
     cout<<endl<<"Not Exist: ";
     for(int i=0;i<nExist.size();i++) {
@@ -182,6 +191,7 @@ void AI::pntNtEs() {
     cout<<endl;
 }
 
+//print AI's dices
 void AI::pntDice() {
     cout<<"AI #"<<getOrdr()<<":  ";
     for(int i=0;i<5;i++) {

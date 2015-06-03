@@ -1,8 +1,8 @@
 /* 
  * File:   AIVector.h
- * Author: admin
- *
+ * Author: Haolan Ye (Benjamin)
  * Created on June 2, 2015, 10:19 PM
+ * Purpose: CSC-17A Project 2 Liar Dice V2 template header file 
  */
 
 #ifndef AIVECTOR_H
@@ -13,21 +13,25 @@
 #include <cstdlib>   // Needed for the exit function
 using namespace std;
 
-#include "AI.h"
 
-template <class T>
+template <class T,class S>
 class AIVector {
     private:
-        T *aptr;
+        T **aptr;//dice
+        S *ptr;//AI
         int size;
         void memError();  // Handles memory allocation errors
         void subError();  // Handles subscripts out of range
     public:
         // Default constructor
-       AIVector() { aptr = 0; size = 0;}
-       
-       // Constructor declaration
-       AIVector(int);
+        AIVector() { aptr=ptr = 0; size = 0;}
+        
+        // Constructor declaration
+        AIVector(int);
+        // Destructor declaration
+        ~AIVector();
+        // Accessor to return the array size
+        int vecSize() const { return size; }
 };
 
 #endif	/* AIVECTOR_H */

@@ -59,7 +59,7 @@ SimpleVector<T>::SimpleVector(int s)
    {
       memError();
    }
-
+   
    // Initialize the array.
    for (int count = 0; count < arraySize; count++)
       *(aptr + count) = 0;
