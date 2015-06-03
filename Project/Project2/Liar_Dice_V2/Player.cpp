@@ -28,9 +28,11 @@ Player::Player() {
 }
 
 //Destructor
+/*
 Player::~Player() {
     delete []dices;//deallocate memory
 }
+*/
 
 //initialize the game variable
 void Player::init() {

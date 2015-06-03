@@ -24,7 +24,7 @@ void result(Player,int,AI []);//Determine who win and lost
 int  getNP();//Prompt for the number of player
 void wtFile(Player *,int);//write the array of Player into file
 void rdFile(Player *,int);//read the file 
-
+void destroy(Player,AI *,int);
 //Player *cretPyr(int);//create player and roll dice
 
 //Execution begins here
@@ -103,7 +103,7 @@ int main(int argc, char** argv) {
     
     result(p1,np-1,a);
     cout<<"The end of main"<<endl;
-    
+    destroy(p1,a,np-1);
     //deallocate memory
     /*
     for(int i=0;i<np-1;i++) {
@@ -153,6 +153,15 @@ void result(Player p,int numAI,AI *a) {
     }
     cout<<"The end of the result"<<endl;
 }
+
+void destroy(Player p,AI *a,int n) {
+    delete []p.getDice();
+    for(int i=0;i<n;i++) {
+        delete a[i].getDice();
+    }
+    delete []a;
+}
+
 /*
 void wtFile(Player *p,int n) {
     fstream out;

@@ -22,7 +22,7 @@ class Player {
         static void renew(char,int,bool);//After bidding, renew face and number of dices
     public: 
         Player();//Constructor
-        ~Player();//Destructor
+        //~Player();//Destructor
         void init();//initialize the variables of the game
         void chalng();//player challenge
         void bid();//player bid
