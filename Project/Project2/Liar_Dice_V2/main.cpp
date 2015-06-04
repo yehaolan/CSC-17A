@@ -24,7 +24,7 @@ void result(Player,int,AI []);//Determine who win and lost
 int  getNP();//Prompt for the number of player
 void wtFile(Player *,int);//write the array of Player into file
 void rdFile(Player *,int);//read the file 
-void destroy(Player,AI *,int);
+void destroy(Player,AI *,int);//destroy the memory
 //Player *cretPyr(int);//create player and roll dice
 
 //Execution begins here
@@ -57,6 +57,7 @@ int main(int argc, char** argv) {
     srand(static_cast<unsigned int>(time(0)));
     int np=getNP();//ask number of player
     Player p1;
+    //cout<<p1.getName()<<endl;
     //AI a1;
     //AI a2;
     //const int SIZE=2;
@@ -102,7 +103,6 @@ int main(int argc, char** argv) {
     } while(p1.getOpen()==-1);
     
     result(p1,np-1,a);
-    cout<<"The end of main"<<endl;
     destroy(p1,a,np-1);
     //deallocate memory
     /*
@@ -151,7 +151,6 @@ void result(Player p,int numAI,AI *a) {
         if(p.getOpen()==0) cout<<"Your challenge succeed"<<endl;
         else cout<<"AI #"<<p.getOpen()<<"'s challenge succeed"<<endl;
     }
-    cout<<"The end of the result"<<endl;
 }
 
 void destroy(Player p,AI *a,int n) {
@@ -162,27 +161,10 @@ void destroy(Player p,AI *a,int n) {
     delete []a;
 }
 
+
+
+
 /*
-void wtFile(Player *p,int n) {
-    fstream out;
-    cout<<"Write to the file..."<<endl;
-    out.open("players.txt",ios::out|ios::binary);
-    if(!out.fail()) {
-       out.write(reinterpret_cast<char *>(p),sizeof(Player)*n); 
-    }
-    out.close();
-}
-
-void rdFile(Player *c,int n) {
-    fstream in;
-    cout<<"Read from the file..."<<endl<<endl;
-    in.open("players.txt",ios::in|ios::binary);
-    if(!in.fail()) {
-       in.read(reinterpret_cast<char *>(c),sizeof(Player)*n); 
-    }
-    in.close();
-}
-
 //create players and roll dices
 Player *cretPyr(int n) {
     Player *players=new Player[n];

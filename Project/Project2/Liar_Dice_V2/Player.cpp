@@ -9,10 +9,12 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 //user library
 #include "Player.h"
+#include "GeneralHashFunctions.h"
 
 int Player::open=-1;
 int Player::numPlyr=0;
@@ -25,6 +27,7 @@ bool Player::wild=true;
 Player::Player() {
     dices=rolDice(5);
     numPlyr++;
+    
 }
 
 //Destructor
@@ -38,8 +41,123 @@ Player::~Player() {
 void Player::init() {
     numCd=numPlyr*3/2;
     order=0;
+    sign();
 }
 
+void Player::sign() {
+    bool nmExist;//invalid
+    bool pwWrong;//name exist
+    do {
+        //ask name
+        string n;
+        cin.ignore();
+        cout<<"Your name: ";
+        getline(cin,n);
+        //ask password
+        string p;
+        cout<<"Your password: ";
+        cin>>p;
+        //ask email
+        string e;
+        cout<<"Your email: ";
+        cin>>e;
+        int numInfo=getNInf()+1; //1
+        
+        Info *allInfo=new Info[numInfo];//2
+        cout<<"Number of previous player is "<<(numInfo-1)<<endl;
+        //when number of previous player is 0
+        if(numInfo==1) {
+            setInfo(n,p,e);
+            allInfo[0]=getInfo();
+            wtFile(allInfo,numInfo);
+            setNInf(numInfo);
+        } else {
+            rdFile(allInfo,(numInfo-1));//1
+            nmExist=false;
+            pwWrong=false;
+            for(int i=0;i<numInfo-1;i++) {
+                cout<<"#"<<i<<": "<<allInfo[i].name<<endl;
+                if(n==allInfo[i].name) {
+                    nmExist=true;
+                    pwWrong=true;
+                    if(nmExist) {
+                        unsigned int hashpw=JSHash(p);
+                        unsigned int hshPass=JSHash(allInfo[i].pw);
+                        if(hashpw==hshPass) pwWrong=false;
+                    }
+                    break;
+                }
+            }
+            if(!nmExist) {
+                setInfo(n,p,e);
+                allInfo[numInfo-1]=getInfo();
+                wtFile(allInfo,numInfo);
+                cout<<"Set the previous number of player is "<<numInfo<<endl;
+                setNInf(numInfo);
+            } else  { //name exist
+                if(!pwWrong) {
+                    cout<<"Login Successfully"<<endl;
+                } else {
+                    cout<<"Wrong name or wrong password"<<endl;
+                }
+                setNInf(--numInfo);
+            }
+            
+        }
+        
+        delete []allInfo;
+    } while(nmExist);
+    
+    
+}
+
+void Player::wtFile(Info *info,int n) {
+    fstream out;
+    cout<<"Write all info to the file..."<<endl;
+    out.open("Information.txt",ios::out|ios::binary);
+    if(!out.fail()) {
+       out.write(reinterpret_cast<char *>(info),sizeof(Info)*n); 
+    }
+    out.close();
+}
+
+void Player::rdFile(Info *info,int n) {
+    fstream in;
+    cout<<"Read all info from the file..."<<endl;
+    in.open("Information.txt",ios::in|ios::binary);
+    if(!in.fail()) {
+       in.read(reinterpret_cast<char *>(info),sizeof(Info)*n); 
+    }
+    in.close();
+}
+
+void Player::setInfo(string n, string p, string e) {
+    setName(n);
+    setPW(p);
+    setEm(e);
+}
+
+int Player::getNInf() {
+    int n=0;
+    fstream in;
+    //cout<<"Read from the file..."<<endl<<endl;
+    in.open("numOfPlayer.txt",ios::in);
+    if(!in.fail()) {
+        in>>n;
+    }
+    in.close();
+    return n;
+}
+
+void Player::setNInf(int num) {
+    fstream out;
+    cout<<"Write number of previous player to the file..."<<endl;
+    out.open("numOfPlayer.txt",ios::out);
+    if(!out.fail()) {
+       out<<num; 
+    }
+    out.close();
+}
 
 //roll the dice
 char *Player::rolDice(int n) {

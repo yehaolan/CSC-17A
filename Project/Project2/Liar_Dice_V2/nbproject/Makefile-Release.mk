@@ -37,6 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/AI.o \
 	${OBJECTDIR}/AIVector.o \
+	${OBJECTDIR}/GeneralHashFunctions.o \
 	${OBJECTDIR}/Player.o \
 	${OBJECTDIR}/main.o
 
@@ -74,6 +75,11 @@ ${OBJECTDIR}/AIVector.o: AIVector.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AIVector.o AIVector.cpp
+
+${OBJECTDIR}/GeneralHashFunctions.o: GeneralHashFunctions.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GeneralHashFunctions.o GeneralHashFunctions.cpp
 
 ${OBJECTDIR}/Player.o: Player.cpp 
 	${MKDIR} -p ${OBJECTDIR}
