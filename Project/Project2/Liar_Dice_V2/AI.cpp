@@ -21,7 +21,6 @@ int AI::numAI=0; //initialize the static variable
 //Constructor
 AI::AI() {
     //cout<<"AI constructor!!!"<<endl;
-    cout<<"Here is the constructor of AI class"<<endl;
     dices=rolDice(5);
     order=++numAI;
     exist=gtEs();

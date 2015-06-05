@@ -27,7 +27,6 @@ bool Player::wild=true;
 Player::Player() {
     dices=rolDice(5);
     numPlyr++;
-    
 }
 
 //Destructor
@@ -42,11 +41,81 @@ void Player::init() {
     numCd=numPlyr*3/2;
     order=0;
     sign();
+    cout<<"You have "<<getCoin()<<" coins"<<endl;
 }
 
+void Player::addCoin() {
+    int numCoin;//number of coin
+    int length;
+    bool invalid;
+    string cc;
+    bool ccRight;
+    //prompt player for the number of coin
+    do {
+        do {
+            cout<<"How many gaming coin you would like to buy($1 for 1 coin): ";
+            cin>>numCoin;
+            if(numCoin<0) 
+                cout<<"Invalid input"<<endl;
+        } while(numCoin<0);
+        //Prompt player for the card number of his/her credit/debit card
+        do {
+            invalid=false;
+            cout<<"Your credit/debit card number: ";
+            cin>>cc;
+            length=cc.length();
+            for(int i=0;i<cc.length();i++) {
+                if(cc.at(i)<'0'||cc.at(i)>'9') {
+                    invalid=true;
+                    break;
+                }
+            }
+        } while(invalid||(length<13||length>16));
+        //verify card number by Luhn algorithm
+        ccRight=validCC(cc,cc.length());//card number is invalid
+    } while(!ccRight);
+    info.coin+=numCoin;
+}
+
+//verify the card number by Luhn algorithm
+bool Player::validCC(string cc,int digit) {
+    int check=0;//check digit
+    bool valid=true;
+    
+    int *reverse=new int[digit-1];//reversed card number
+    
+    for(int i=0;i<digit-1;i++) {
+        reverse[i]=static_cast<int>(cc.at(digit-i-2)-48);
+    }
+    //double the odd digit
+    for(int i=0;i<digit-1;i++) {
+        if(i%2==0) {
+            reverse[i]=reverse[i]*2;
+        } 
+    }
+    //sum of each digits
+    for(int i=0;i<digit-1;i++) {
+        if(reverse[i]>9)
+            reverse[i]=reverse[i]/10+reverse[i]%10;
+    }
+    //get the sum of all digits
+    for(int i=0;i<digit-1;i++) {
+        check+=reverse[i];
+    }
+    //get the check digit
+    check=check*9%10;
+    if(check!=static_cast<int>(cc[digit-1]-48)) valid=false;
+    delete [] reverse;
+    reverse=0;
+    return valid;
+}
+
+//sign in or Sign up
 void Player::sign() {
     bool nmExist;//invalid
     bool pwWrong;//name exist
+    int nCoin;
+    //loop until the player sign up or sign successfully
     do {
         //ask name
         string n;
@@ -61,52 +130,60 @@ void Player::sign() {
         string e;
         cout<<"Your email: ";
         cin>>e;
-        int numInfo=getNInf()+1; //1
-        
+        int numInfo=getNInf()+1; //get the number of previous player and add 1
+        //Allocate memory for the information of all previous players
         Info *allInfo=new Info[numInfo];//2
         cout<<"Number of previous player is "<<(numInfo-1)<<endl;
         //when number of previous player is 0
         if(numInfo==1) {
             setInfo(n,p,e);
+            setCoin(10);
             allInfo[0]=getInfo();
             wtFile(allInfo,numInfo);
             setNInf(numInfo);
-        } else {
+        } else {  //there are previous players
             rdFile(allInfo,(numInfo-1));//1
             nmExist=false;
             pwWrong=false;
+            //check this name exist or not
             for(int i=0;i<numInfo-1;i++) {
                 cout<<"#"<<i<<": "<<allInfo[i].name<<endl;
+                //if the name that player input exists in the information of all previous players
                 if(n==allInfo[i].name) {
                     nmExist=true;
                     pwWrong=true;
-                    if(nmExist) {
+                    if(nmExist) { //if the name exist
+                        //use hash function to check the password correct or not
                         unsigned int hashpw=JSHash(p);
-                        unsigned int hshPass=JSHash(allInfo[i].pw);
-                        if(hashpw==hshPass) pwWrong=false;
+                        if(hashpw==info.pw) pwWrong=false; //if the password is wrong
                     }
+                    nCoin=allInfo[i].coin;
                     break;
                 }
             }
+            //if the name not exist in the list
             if(!nmExist) {
-                setInfo(n,p,e);
+                setInfo(n,p,e);//set the name, password, and email address
+                //get the coin
+                setCoin(10);
                 allInfo[numInfo-1]=getInfo();
                 wtFile(allInfo,numInfo);
+                cout<<"Sign up successfully"<<endl;
                 cout<<"Set the previous number of player is "<<numInfo<<endl;
                 setNInf(numInfo);
             } else  { //name exist
+                //password is correct
                 if(!pwWrong) {
-                    cout<<"Login Successfully"<<endl;
-                } else {
+                    info.coin=nCoin;
+                    cout<<"Sign in Successfully"<<endl;
+                } else { //password is wrong
                     cout<<"Wrong name or wrong password"<<endl;
                 }
                 setNInf(--numInfo);
             }
-            
         }
-        
         delete []allInfo;
-    } while(nmExist);
+    } while(nmExist&&pwWrong);
     
     
 }
@@ -135,6 +212,10 @@ void Player::setInfo(string n, string p, string e) {
     setName(n);
     setPW(p);
     setEm(e);
+}
+
+void Player::setPW(string p) {
+    info.pw=JSHash(p);
 }
 
 int Player::getNInf() {

@@ -5,7 +5,6 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>AI.h</itemPath>
-      <itemPath>AIVector.h</itemPath>
       <itemPath>GeneralHashFunctions.h</itemPath>
       <itemPath>Info.h</itemPath>
       <itemPath>Player.h</itemPath>
@@ -18,7 +17,6 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>AI.cpp</itemPath>
-      <itemPath>AIVector.cpp</itemPath>
       <itemPath>GeneralHashFunctions.cpp</itemPath>
       <itemPath>Player.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -48,10 +46,6 @@
       <item path="AI.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="AI.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="AIVector.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="AIVector.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="GeneralHashFunctions.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -89,10 +83,6 @@
       <item path="AI.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="AI.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="AIVector.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="AIVector.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="GeneralHashFunctions.cpp" ex="false" tool="1" flavor2="0">
       </item>

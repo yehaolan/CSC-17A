@@ -20,7 +20,7 @@ using namespace std;
 //Global Constants
 
 //Function prototypes
-void result(Player,int,AI []);//Determine who win and lost
+void result(Player,int,AI *);//Determine who win and lost
 int  getNP();//Prompt for the number of player
 void wtFile(Player *,int);//write the array of Player into file
 void rdFile(Player *,int);//read the file 
@@ -29,46 +29,13 @@ void destroy(Player,AI *,int);//destroy the memory
 
 //Execution begins here
 int main(int argc, char** argv) {
-    /*
     
-    //create players and roll dices
-    Player *players=cretPyr(numPyr);
-    Player *copy=new Player[numPyr];//create for reading file
-    wtFile(players,numPyr);//write all the players into file
-
-    //read the binary file(players)
-    rdFile(copy,numPyr);
-    //show dices of all players
-    for(int i=0;i<numPyr;i++) {
-        dspDice(copy+i);
-    } 
-    //display the result of the game
-    result(num,face,numPyr,copy,open,wild);
-    //deallocate memory
-    for(int i=0;i<numPyr;i++) {
-        //delete []copy[i].dices;
-        delete []players[i].dices;
-    }
-    delete []players;
-    delete []copy;
-    
-    */
     //set seed for rolling dice
     srand(static_cast<unsigned int>(time(0)));
     int np=getNP();//ask number of player
     Player p1;
-    //cout<<p1.getName()<<endl;
-    //AI a1;
-    //AI a2;
-    //const int SIZE=2;
-    //p1.setNumP(np);
-    //if(np==3) a[np-2]=a2;
-    //AI a[SIZE]={a1,a2};
-    
     AI *a=new AI[np-1];
     
-    //vector<AI> a;
-    //a.push_back(a1);
     
     //write and read file 
     
@@ -145,12 +112,21 @@ void result(Player p,int numAI,AI *a) {
     }
     cout<<"There are "<<ttDices<<" "<<p.getFace()<<"'s in all players"<<endl;
     if(ttDices>=p.getNum()) {
-        if(p.getOpen()==0) cout<<"Your challenge failed"<<endl;
+        if(p.getOpen()==0) {
+            cout<<"Your challenge failed"<<endl;
+            cout<<"You lose 5 coins"<<endl;
+            p.setCoin(p.getCoin()-5);
+        }
         else cout<<"AI #"<<p.getOpen()<<"'s challenge failed"<<endl;
     } else {
-        if(p.getOpen()==0) cout<<"Your challenge succeed"<<endl;
+        if(p.getOpen()==0) {
+            cout<<"Your challenge succeed"<<endl;
+            cout<<"You lose 5 coins"<<endl;
+            p.setCoin(p.getCoin()+5);
+        }
         else cout<<"AI #"<<p.getOpen()<<"'s challenge succeed"<<endl;
     }
+    cout<<"Now you have "<<p.getCoin()<<" Coins"<<endl;
 }
 
 void destroy(Player p,AI *a,int n) {
@@ -161,17 +137,3 @@ void destroy(Player p,AI *a,int n) {
     delete []a;
 }
 
-
-
-
-/*
-//create players and roll dices
-Player *cretPyr(int n) {
-    Player *players=new Player[n];
-    for(int i=0;i<n;i++) {
-        players[i].dices=rolDice(5);
-        players[i].order=i;
-    }
-    return players;
-}
-*/

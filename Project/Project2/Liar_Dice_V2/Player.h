@@ -23,12 +23,14 @@ class Player {
         static char faceCd;//face Called
         static int round;//round #
         static bool wild;//wild
+        static int prev;//previous player
         static void renew(char,int,bool);//After bidding, renew face and number of dices
         void sign();//sign in/sign up
         int getNInf();//get the number of previous players
         void setNInf(int);//set the number of previous players
-        void wtFile(Info *,int);
-        void rdFile(Info *,int);
+        void wtFile(Info *,int);//write the Information of player to the file
+        void rdFile(Info *,int);//read the Information of player to the file
+        bool validCC(string,int);
     public: 
         Player();//Constructor
         //~Player();//Destructor
@@ -37,21 +39,24 @@ class Player {
         void bid();//player bid
         static void  setNumP(int n) {numPlyr= n;}//set the number of player
         void setName(string s) {info.name=s;} //set the name
-        void setPW(string p) {info.pw=p;}//set the password
+        void setPW(string);//set the password
         void setEm(string e) {info.email=e;}//set the email
+        void setCoin(int c) {info.coin=c;}//set player's coin
         void setInfo(string,string,string);//set the info
+        void addCoin();//add the coins by using credit card
         int  getOrdr() const {return order;}//get the order
         int  getOpen() const {return open;}//get the player who challenge
         char* getDice() const {return dices;}//get all dices
         int  getNumP() const {return numPlyr;}//get number of player
         int  getNum()  const {return numCd;}//get number called
+        int getCoin() const {return info.coin;}//get the coin of player
         char getFace() const {return faceCd;}//get the face of dice called
         int  getRond() const {return round;}//get the # of round
         Info getInfo() const {return info;}//get the info (a structure)
         bool getWild() const {return wild;}//get the wild(true or false)
         string getName() const {return info.name;}//get the name
-        string getPW() const {return info.pw;}//get password
         string getEm() const {return info.email;}//get email
+        unsigned int getPW() const {return info.pw;}//get password
         int getQuan();//get the number of face bided
         void pntDice();//print out the dice
 };
