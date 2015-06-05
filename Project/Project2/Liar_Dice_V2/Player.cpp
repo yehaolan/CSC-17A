@@ -16,6 +16,7 @@ using namespace std;
 #include "Player.h"
 #include "GeneralHashFunctions.h"
 
+//initialize the static variables
 int Player::open=-1;
 int Player::numPlyr=0;
 int Player::round=0;
@@ -37,10 +38,25 @@ Player::~Player() {
 }
 */
 
+//roll the dice
 void Player::roll() {
-    dices=rolDice(5);
+    aVector<char> a=rolDice(5);
+    for(int i=0;i<5;i++) {
+        dices[i]=a[i];
+    }
 }
 
+//roll the dice
+aVector<char> Player::rolDice(int n) {
+    aVector<char> dice(n);//allocate memory for char array
+    //randomly roll dice
+    for(int i=0;i<n;i++) {
+        dice[i]=static_cast<char>(rand()%6+1+48);
+    }
+    return dice;
+}
+
+//reset the static variables
 void Player::reset() {
     open=-1;
     numPlyr=1;
@@ -57,10 +73,12 @@ void Player::init() {
     cout<<"You have "<<getCoin()<<" coins"<<endl;
 }
 
+//set the number called
 void Player::setNumC() {
     numCd=numPlyr*3/2;
 }
 
+//player can buy gaming coin here
 void Player::addCoin() {
     int numCoin;//number of coin
     int length;
@@ -214,6 +232,7 @@ void Player::sign() {
     
 }
 
+//write the information to the file
 void Player::wtFile(Info *info,int n) {
     fstream out;
     cout<<"Write all info to the file..."<<endl<<endl;
@@ -224,6 +243,7 @@ void Player::wtFile(Info *info,int n) {
     out.close();
 }
 
+//get the information from file
 void Player::rdFile(Info *info,int n) {
     fstream in;
     cout<<"Read all info from the file..."<<endl<<endl;
@@ -234,6 +254,7 @@ void Player::rdFile(Info *info,int n) {
     in.close();
 }
 
+//renew the information
 void Player::renewFl(string n,int c) {
     Info *infor=new Info[getNInf()];
     fstream in;
@@ -251,25 +272,28 @@ void Player::renewFl(string n,int c) {
     }
     cout<<"Update "<<c<<" to the file"<<endl;
     fstream out;
-    cout<<"Write all info to the file..."<<endl<<endl;
     out.open("Information.txt",ios::out|ios::binary);
     if(!out.fail()) {
        out.write(reinterpret_cast<char *>(infor),sizeof(Info)*getNInf()); 
     }
+    cout<<"Write all info to the file..."<<endl<<endl;
     out.close();
     
 }
 
+//set the info
 void Player::setInfo(string n, string p, string e) {
     setName(n);
     setPW(p);
     setEm(e);
 }
 
+//set the password with hash function
 void Player::setPW(string p) {
     info.pw=JSHash(p);
 }
 
+//get the number of previous players
 int Player::getNInf() {
     int n=0;
     fstream in;
@@ -282,6 +306,7 @@ int Player::getNInf() {
     return n;
 }
 
+//set the number of previous players
 void Player::setNInf(int num) {
     fstream out;
     cout<<"Write number of previous player to the file..."<<endl;
@@ -292,15 +317,7 @@ void Player::setNInf(int num) {
     out.close();
 }
 
-//roll the dice
-char *Player::rolDice(int n) {
-    char *dice=new char[n];//allocate memory for char array
-    //randomly roll dice
-    for(int i=0;i<n;i++) {
-        dice[i]=static_cast<char>(rand()%6+1+48);
-    }
-    return dice;
-}
+
 
 //print out the dices
 void Player::pntDice() {
@@ -319,7 +336,7 @@ void Player::renew(char f, int n,bool w) {
         wild=w;
 }
 
-
+//get the number of the dice called in all players' hands
 int Player::getQuan() {
     int num=0;
     int ones=0;

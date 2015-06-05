@@ -9,14 +9,15 @@
 #define	PLAYER_H
 
 #include "Info.h"
+#include "aVector.h"
 
 class Player {
     private:
-        Info info;
+        Info info;//save the information about players
     protected:
         int order; //0 is player, 1 is AI#1, 2 is AI#2
-        char *dices; //dices of player
-        char *rolDice(int);//roll dice
+        aVector<char> dices; //dices of player
+        aVector<char> rolDice(int);//roll dice
         static int open;// -1 is not open, 0 is player open, 1 is AI#1 open,2 is AI#2 open
         static int numPlyr;//number of player
         static int numCd;//number of dice called
@@ -42,10 +43,11 @@ class Player {
         static void setNumC();//initialize the number called
         static void reset();//reset the game
         static void setOpen(int n) {open=n;}//set the open
-        static void setNum(int n) {numCd=n;}
-        static void setFace(char c) {faceCd=c;}
-        static void setRond(int r) {round=r;}
-        static void setLBdr(int l) {lastBdr=l;}
+        static void setNum(int n) {numCd=n;} //set the number called
+        static void setFace(char c) {faceCd=c;}//set the face called
+        static void setRond(int r) {round=r;}//set the round
+        static void setLBdr(int l) {lastBdr=l;}//set the last bidder
+        //setter for member variables
         void setOrdr(int n) {order=n;};//set the order
         void setName(string s) {info.name=s;} //set the name
         void setPW(string);//set the password
@@ -54,20 +56,21 @@ class Player {
         void setCoin(int c) {info.coin=c;}//set player's coin
         void setInfo(string,string,string);//set the info
         void addCoin();//add the coins by using credit card
+        unsigned int getPW() const {return info.pw;}//get password
+        //getter for member variables
         int  getOrdr() const {return order;}//get the order
         int  getOpen() const {return open;}//get the player who challenge
-        char* getDice() const {return dices;}//get all dices
         int  getNumP() const {return numPlyr;}//get number of player
         int  getNum()  const {return numCd;}//get number called
-        int getCoin() const {return info.coin;}//get the coin of player
+        int  getCoin() const {return info.coin;}//get the coin of player
+        int  getRond() const {return round;}//get the # of round
+        aVector<char> getDice() const {return dices;}//get all dices
         char getFace() const {return faceCd;}//get the face of dice called
         static int getLBdr() {return lastBdr;}//get the last bidder
-        int  getRond() const {return round;}//get the # of round
         Info getInfo() const {return info;}//get the info (a structure)
         bool getWild() const {return wild;}//get the wild(true or false)
         string getName() const {return info.name;}//get the name
         string getEm() const {return info.email;}//get email
-        unsigned int getPW() const {return info.pw;}//get password
         int getQuan();//get the number of face bided
         void pntDice();//print out the dice
         void renewFl(string,int);//renew the information file

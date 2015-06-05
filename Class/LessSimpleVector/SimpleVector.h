@@ -104,7 +104,6 @@ SimpleVector<T>::~SimpleVector()
 template <class T>
 void SimpleVector<T>::push(T o) {
     //if-else
-    
     T *arr=new T[arraySize+1];
     if(arr==0) memError();
     for(int i=0;i<arraySize;i++) {

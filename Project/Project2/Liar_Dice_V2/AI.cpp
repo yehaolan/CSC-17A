@@ -15,6 +15,7 @@ using namespace std;
 
 //User library
 #include "AI.h"
+#include "aVector.h"
 
 int AI::numAI=0; //initialize the static variable
 
@@ -208,11 +209,8 @@ void AI::pntDice() {
     }
     cout<<endl;
 }
-
+/*
 void AI::operator =(const AI& right) {
-    delete []dices;
-    dices=new char[5];
-    for(int i=0;i<5;i++) {
-        dices[i]=right.dices[i];
-    }
+    dices=right.getDice();
 }
+ * */

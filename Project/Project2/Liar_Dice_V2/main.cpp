@@ -24,7 +24,8 @@ using namespace std;
 void result(Player &,int,AI *);//Determine who win and lost
 int  getNP();//Prompt for the number of player
 void destryAI(AI *,int);//destroy AIs
-void destryPl(Player);//destroy player
+void destryPl(Player);
+//void destryPl(Player);//destroy player
 //Player *cretPyr(int);//create player and roll dice
 
 //Execution begins here
@@ -96,7 +97,7 @@ int main(int argc, char** argv) {
     } while(ans!='3');
     cout<<"Now player #1 has "<<p1.getCoin()<<" coins "<<endl;
     p1.renewFl(p1.getName(),p1.getCoin());
-    destryPl(p1);
+    
     //Exit stage right
     return 0;
 }
@@ -176,12 +177,12 @@ void result(Player &p,int numAI,AI *a) {
 //deallocate memory
 void destryAI(AI *a,int n) {
     for(int i=0;i<n;i++) {
-        delete a[i].getDice();
+        delete []a[i].getDice().getAptr();
     }
     delete []a;
 }
 
-void destryPl(Player p) {
-    delete p.getDice();
+void destryPl(Player p)  {
+    delete []p.getDice().getAptr();
 }
 
