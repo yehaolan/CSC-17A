@@ -245,6 +245,7 @@ void Player::renewFl(string n,int c) {
     for(int i=0;i<getNInf();i++) {
         if(infor[i].name==n) {
             infor[i].coin=c;
+            cout<<"Again, it's "<<infor[i].coin<<endl;
             break;
         }
     }

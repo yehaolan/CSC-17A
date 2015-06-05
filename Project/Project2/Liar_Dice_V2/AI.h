@@ -9,7 +9,7 @@
 #define	AI_H
 
 #include "Player.h"
-class AI : public Player {
+class AI:public Player {
     private:
         static int numAI; //number of AI
         vector<char> exist;//faces of dice that exist in AI's hand

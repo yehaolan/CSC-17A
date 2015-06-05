@@ -21,10 +21,8 @@ using namespace std;
 //Global Constants
 
 //Function prototypes
-void result(Player,int,AI *);//Determine who win and lost
+void result(Player &,int,AI *);//Determine who win and lost
 int  getNP();//Prompt for the number of player
-void wtFile(Player *,int);//write the array of Player into file
-void rdFile(Player *,int);//read the file 
 void destryAI(AI *,int);//destroy AIs
 void destryPl(Player);//destroy player
 //Player *cretPyr(int);//create player and roll dice
@@ -39,6 +37,7 @@ int main(int argc, char** argv) {
     p1.init();
     
     do {
+        cout<<"&&&& is "<<p1.getCoin()<<endl;
         Player::reset();
         AI::reset();
         p1.roll();
@@ -87,9 +86,11 @@ int main(int argc, char** argv) {
                 }
                 temp=0;
             } while(p1.getOpen()==-1);
-
+            cout<<"Before result, coins is "<<p1.getCoin()<<endl;
             result(p1,np-1,a);
+            cout<<"Before destroy AIs, coins is "<<p1.getCoin()<<endl;
             destryAI(a,np-1);
+            cout<<"After destroy AIs, coins is "<<p1.getCoin()<<endl;
         }
         if(ans!='3') {
             cout<<"Click Enter to continue...";
@@ -97,6 +98,7 @@ int main(int argc, char** argv) {
             cin.ignore();
         }
     } while(ans!='3');
+    cout<<"Now player #1 has "<<p1.getCoin()<<" coins "<<endl;
     p1.renewFl(p1.getName(),p1.getCoin());
     destryPl(p1);
     //Exit stage right
@@ -119,7 +121,7 @@ int getNP() {
 }
 
 //print out the result
-void result(Player p,int numAI,AI *a) {
+void result(Player &p,int numAI,AI *a) {
     p.pntDice();
     for(int i=0;i<numAI;i++) {
         a[i].pntDice();
@@ -135,8 +137,9 @@ void result(Player p,int numAI,AI *a) {
         //if player challenge
         if(p.getOpen()==0) {
             cout<<"Your challenge failed"<<endl;
-            cout<<"You lost 5 coins"<<endl;
             p.setCoin(p.getCoin()-5);
+            cout<<"You lost 5 ^^^^"<<p.getCoin()<<endl;
+            
             p.renewFl(p.getName(),p.getCoin());
         }
         //if AI challenge
@@ -145,7 +148,7 @@ void result(Player p,int numAI,AI *a) {
             //if AI challenge me
             if(p.getLBdr()==0) {
                 p.setCoin(p.getCoin()+5);
-                cout<<"You won 5 coins"<<endl;
+                cout<<"You won 5 coins^^^^"<<p.getCoin()<<endl;
                 p.renewFl(p.getName(),p.getCoin());
             }
         }
@@ -154,8 +157,9 @@ void result(Player p,int numAI,AI *a) {
         //if player challenge
         if(p.getOpen()==0) {
             cout<<"Your challenge succeed"<<endl;
-            cout<<"You won 5 coins"<<endl;
             p.setCoin(p.getCoin()+5);
+            cout<<"You won 5 ^^^^"<<p.getCoin()<<endl;
+            
             p.renewFl(p.getName(),p.getCoin());
         }
         //if AI challenge
@@ -164,15 +168,13 @@ void result(Player p,int numAI,AI *a) {
             //if AI challenge me
             if(p.getLBdr()==0) {
                 p.setCoin(p.getCoin()-5);
-                cout<<"You lost 5 coins"<<endl;
+                cout<<"You lost 5 ^^^^"<<p.getCoin()<<endl;
                 p.renewFl(p.getName(),p.getCoin());
             }
         }
     }
     //Tell player how many coins he/she has
-    
     cout<<"Now you have "<<p.getCoin()<<" Coins"<<endl;
-    p.renewFl(p.getName(),p.getCoin());
 }
 
 //deallocate memory
