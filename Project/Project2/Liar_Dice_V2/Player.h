@@ -23,7 +23,7 @@ class Player {
         static char faceCd;//face Called
         static int round;//round #
         static bool wild;//wild
-        static int prev;//previous player
+        static int lastBdr;//the last bidder
         static void renew(char,int,bool);//After bidding, renew face and number of dices
         void sign();//sign in/sign up
         int getNInf();//get the number of previous players
@@ -37,7 +37,10 @@ class Player {
         void init();//initialize the variables of the game
         void chalng();//player challenge
         void bid();//player bid
-        static void  setNumP(int n) {numPlyr= n;}//set the number of player
+        void roll();//roll the dice
+        static void setNumP(int n) {numPlyr= n;}//set the number of player
+        static void setNumC();//initialize the number called
+        static void reset();//reset the game
         void setName(string s) {info.name=s;} //set the name
         void setPW(string);//set the password
         void setEm(string e) {info.email=e;}//set the email
@@ -51,6 +54,7 @@ class Player {
         int  getNum()  const {return numCd;}//get number called
         int getCoin() const {return info.coin;}//get the coin of player
         char getFace() const {return faceCd;}//get the face of dice called
+        static int getLBdr() {return lastBdr;}//get the last bidder
         int  getRond() const {return round;}//get the # of round
         Info getInfo() const {return info;}//get the info (a structure)
         bool getWild() const {return wild;}//get the wild(true or false)
@@ -59,6 +63,7 @@ class Player {
         unsigned int getPW() const {return info.pw;}//get password
         int getQuan();//get the number of face bided
         void pntDice();//print out the dice
+        void renewFl(string,int);//renew the information file
 };
 
 #endif	/* PLAYER_H */

@@ -22,6 +22,7 @@ int Player::round=0;
 int Player::numCd;
 char Player::faceCd='0';
 bool Player::wild=true;
+int Player::lastBdr=-1;
 
 //Constructor
 Player::Player() {
@@ -36,12 +37,28 @@ Player::~Player() {
 }
 */
 
+void Player::roll() {
+    dices=rolDice(5);
+}
+
+void Player::reset() {
+    open=-1;
+    numPlyr=1;
+    round=0;
+    faceCd='0';
+    wild=true;
+    lastBdr=-1;
+}
+
 //initialize the game variable
 void Player::init() {
-    numCd=numPlyr*3/2;
     order=0;
     sign();
     cout<<"You have "<<getCoin()<<" coins"<<endl;
+}
+
+void Player::setNumC() {
+    numCd=numPlyr*3/2;
 }
 
 void Player::addCoin() {
@@ -74,7 +91,11 @@ void Player::addCoin() {
         //verify card number by Luhn algorithm
         ccRight=validCC(cc,cc.length());//card number is invalid
     } while(!ccRight);
-    info.coin+=numCoin;
+    cout<<"You bought "<<numCoin<<" gaming coins successfully"<<endl;
+    setCoin(getCoin()+numCoin);
+    //renew
+    renewFl(getName(),getCoin());
+    cout<<"Now, you have "<<getCoin()<<" gaming coin"<<endl;
 }
 
 //verify the card number by Luhn algorithm
@@ -114,9 +135,12 @@ bool Player::validCC(string cc,int digit) {
 void Player::sign() {
     bool nmExist;//invalid
     bool pwWrong;//name exist
-    int nCoin;
+    int nCoin=0;
     //loop until the player sign up or sign successfully
     do {
+        string e;
+        cout<<"Your email: ";
+        cin>>e;
         //ask name
         string n;
         cin.ignore();
@@ -127,9 +151,7 @@ void Player::sign() {
         cout<<"Your password: ";
         cin>>p;
         //ask email
-        string e;
-        cout<<"Your email: ";
-        cin>>e;
+        
         int numInfo=getNInf()+1; //get the number of previous player and add 1
         //Allocate memory for the information of all previous players
         Info *allInfo=new Info[numInfo];//2
@@ -148,6 +170,7 @@ void Player::sign() {
             //check this name exist or not
             for(int i=0;i<numInfo-1;i++) {
                 cout<<"#"<<i<<": "<<allInfo[i].name<<endl;
+                cout<<"#"<<i<<": "<<allInfo[i].coin<<endl;
                 //if the name that player input exists in the information of all previous players
                 if(n==allInfo[i].name) {
                     nmExist=true;
@@ -155,9 +178,11 @@ void Player::sign() {
                     if(nmExist) { //if the name exist
                         //use hash function to check the password correct or not
                         unsigned int hashpw=JSHash(p);
-                        if(hashpw==info.pw) pwWrong=false; //if the password is wrong
+                        if(hashpw==allInfo[i].pw) {
+                            pwWrong=false; //if the password is wrong
+                            nCoin=allInfo[i].coin;
+                        }
                     }
-                    nCoin=allInfo[i].coin;
                     break;
                 }
             }
@@ -206,6 +231,32 @@ void Player::rdFile(Info *info,int n) {
        in.read(reinterpret_cast<char *>(info),sizeof(Info)*n); 
     }
     in.close();
+}
+
+void Player::renewFl(string n,int c) {
+    Info *infor=new Info[getNInf()];
+    fstream in;
+    cout<<"Read all info from the file..."<<endl;
+    in.open("Information.txt",ios::in|ios::binary);
+    if(!in.fail()) {
+       in.read(reinterpret_cast<char *>(infor),sizeof(Info)*getNInf()); 
+    }
+    in.close();
+    for(int i=0;i<getNInf();i++) {
+        if(infor[i].name==n) {
+            infor[i].coin=c;
+            break;
+        }
+    }
+    cout<<"Writing "<<c<<" to the file"<<endl;
+    fstream out;
+    cout<<"Write all info to the file..."<<endl;
+    out.open("Information.txt",ios::out|ios::binary);
+    if(!out.fail()) {
+       out.write(reinterpret_cast<char *>(infor),sizeof(Info)*getNInf()); 
+    }
+    out.close();
+    
 }
 
 void Player::setInfo(string n, string p, string e) {
@@ -300,6 +351,7 @@ void Player::chalng() {
 
 //player bid
 void Player::bid() {
+    cout<<"The previous player is "<<getLBdr()<<endl;
     //declare variable
     string bStr;//string that player input
     //temp variables of number of dice, face, and wild
@@ -360,7 +412,7 @@ void Player::bid() {
         cout<<"You bid "<<numCd<<"  "<<faceCd<<"'s";
         if(widTemp) cout<<" "<<endl;
         else cout<<" only"<<endl;
-        
+        lastBdr=0;
         round++;
     }
 }

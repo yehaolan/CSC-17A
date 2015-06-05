@@ -27,9 +27,14 @@ AI::AI() {
     nExist=gtNtEs();
 }
 
+void AI::reset() {
+    numAI=0;
+}
+
 //AI bid
 void AI::bid() {
     //bid
+    cout<<"The previous player is "<<getLBdr()<<endl;
     if(open==-1) {
         char faceTem;
         int numTem=numCd;
@@ -71,7 +76,9 @@ void AI::bid() {
         cout<<"AI #"<<order<<" bid "<<numCd<<"  "<<faceCd<<"'s";
         if(wild) cout<<" "<<endl;
         else cout<<" only"<<endl;
+        lastBdr=getOrdr();
     }
+    
     round++;
 }
 
