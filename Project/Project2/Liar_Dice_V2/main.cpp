@@ -37,7 +37,6 @@ int main(int argc, char** argv) {
     p1.init();
     
     do {
-        cout<<"&&&& is "<<p1.getCoin()<<endl;
         Player::reset();
         AI::reset();
         p1.roll();
@@ -86,11 +85,8 @@ int main(int argc, char** argv) {
                 }
                 temp=0;
             } while(p1.getOpen()==-1);
-            cout<<"Before result, coins is "<<p1.getCoin()<<endl;
             result(p1,np-1,a);
-            cout<<"Before destroy AIs, coins is "<<p1.getCoin()<<endl;
             destryAI(a,np-1);
-            cout<<"After destroy AIs, coins is "<<p1.getCoin()<<endl;
         }
         if(ans!='3') {
             cout<<"Click Enter to continue...";
@@ -138,7 +134,7 @@ void result(Player &p,int numAI,AI *a) {
         if(p.getOpen()==0) {
             cout<<"Your challenge failed"<<endl;
             p.setCoin(p.getCoin()-5);
-            cout<<"You lost 5 ^^^^"<<p.getCoin()<<endl;
+            cout<<"You lost 5 coins"<<endl;
             
             p.renewFl(p.getName(),p.getCoin());
         }
@@ -148,7 +144,7 @@ void result(Player &p,int numAI,AI *a) {
             //if AI challenge me
             if(p.getLBdr()==0) {
                 p.setCoin(p.getCoin()+5);
-                cout<<"You won 5 coins^^^^"<<p.getCoin()<<endl;
+                cout<<"You won 5 coins"<<endl;
                 p.renewFl(p.getName(),p.getCoin());
             }
         }
@@ -158,7 +154,7 @@ void result(Player &p,int numAI,AI *a) {
         if(p.getOpen()==0) {
             cout<<"Your challenge succeed"<<endl;
             p.setCoin(p.getCoin()+5);
-            cout<<"You won 5 ^^^^"<<p.getCoin()<<endl;
+            cout<<"You won 5 coins"<<endl;
             
             p.renewFl(p.getName(),p.getCoin());
         }
@@ -168,7 +164,7 @@ void result(Player &p,int numAI,AI *a) {
             //if AI challenge me
             if(p.getLBdr()==0) {
                 p.setCoin(p.getCoin()-5);
-                cout<<"You lost 5 ^^^^"<<p.getCoin()<<endl;
+                cout<<"You lost 5 coins"<<endl;
                 p.renewFl(p.getName(),p.getCoin());
             }
         }

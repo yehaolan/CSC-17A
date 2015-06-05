@@ -30,7 +30,7 @@ class Player {
         void setNInf(int);//set the number of previous players
         void wtFile(Info *,int);//write the Information of player to the file
         void rdFile(Info *,int);//read the Information of player to the file
-        bool validCC(string,int);
+        bool validCC(string,int);//function that valid card number
     public: 
         Player();//Constructor
         //~Player();//Destructor
@@ -41,9 +41,16 @@ class Player {
         static void setNumP(int n) {numPlyr= n;}//set the number of player
         static void setNumC();//initialize the number called
         static void reset();//reset the game
+        static void setOpen(int n) {open=n;}//set the open
+        static void setNum(int n) {numCd=n;}
+        static void setFace(char c) {faceCd=c;}
+        static void setRond(int r) {round=r;}
+        static void setLBdr(int l) {lastBdr=l;}
+        void setOrdr(int n) {order=n;};//set the order
         void setName(string s) {info.name=s;} //set the name
         void setPW(string);//set the password
         void setEm(string e) {info.email=e;}//set the email
+        void setInfo(Info i) {info=i;}//set the structure
         void setCoin(int c) {info.coin=c;}//set player's coin
         void setInfo(string,string,string);//set the info
         void addCoin();//add the coins by using credit card

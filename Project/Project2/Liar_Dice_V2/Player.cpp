@@ -95,7 +95,7 @@ void Player::addCoin() {
     setCoin(getCoin()+numCoin);
     //renew
     renewFl(getName(),getCoin());
-    cout<<"Now, you have "<<getCoin()<<" gaming coin"<<endl;
+    cout<<"Now, you have "<<getCoin()<<" gaming coins"<<endl;
 }
 
 //verify the card number by Luhn algorithm
@@ -155,7 +155,7 @@ void Player::sign() {
         int numInfo=getNInf()+1; //get the number of previous player and add 1
         //Allocate memory for the information of all previous players
         Info *allInfo=new Info[numInfo];//2
-        cout<<"Number of previous player is "<<(numInfo-1)<<endl;
+        //cout<<"Number of previous player is "<<(numInfo-1)<<endl;
         //when number of previous player is 0
         if(numInfo==1) {
             setInfo(n,p,e);
@@ -169,8 +169,8 @@ void Player::sign() {
             pwWrong=false;
             //check this name exist or not
             for(int i=0;i<numInfo-1;i++) {
-                cout<<"#"<<i<<": "<<allInfo[i].name<<endl;
-                cout<<"#"<<i<<": "<<allInfo[i].coin<<endl;
+                //cout<<"#"<<i<<": "<<allInfo[i].name<<endl;
+                //cout<<"#"<<i<<": "<<allInfo[i].coin<<endl;
                 //if the name that player input exists in the information of all previous players
                 if(n==allInfo[i].name) {
                     nmExist=true;
@@ -180,6 +180,7 @@ void Player::sign() {
                         unsigned int hashpw=JSHash(p);
                         if(hashpw==allInfo[i].pw) {
                             pwWrong=false; //if the password is wrong
+                            setInfo(n,p,e);
                             nCoin=allInfo[i].coin;
                         }
                     }
@@ -194,7 +195,7 @@ void Player::sign() {
                 allInfo[numInfo-1]=getInfo();
                 wtFile(allInfo,numInfo);
                 cout<<"Sign up successfully"<<endl;
-                cout<<"Set the previous number of player is "<<numInfo<<endl;
+                //cout<<"Set the previous number of player is "<<numInfo<<endl;
                 setNInf(numInfo);
             } else  { //name exist
                 //password is correct
@@ -215,7 +216,7 @@ void Player::sign() {
 
 void Player::wtFile(Info *info,int n) {
     fstream out;
-    cout<<"Write all info to the file..."<<endl;
+    cout<<"Write all info to the file..."<<endl<<endl;
     out.open("Information.txt",ios::out|ios::binary);
     if(!out.fail()) {
        out.write(reinterpret_cast<char *>(info),sizeof(Info)*n); 
@@ -225,7 +226,7 @@ void Player::wtFile(Info *info,int n) {
 
 void Player::rdFile(Info *info,int n) {
     fstream in;
-    cout<<"Read all info from the file..."<<endl;
+    cout<<"Read all info from the file..."<<endl<<endl;
     in.open("Information.txt",ios::in|ios::binary);
     if(!in.fail()) {
        in.read(reinterpret_cast<char *>(info),sizeof(Info)*n); 
@@ -245,13 +246,12 @@ void Player::renewFl(string n,int c) {
     for(int i=0;i<getNInf();i++) {
         if(infor[i].name==n) {
             infor[i].coin=c;
-            cout<<"Again, it's "<<infor[i].coin<<endl;
             break;
         }
     }
-    cout<<"Writing "<<c<<" to the file"<<endl;
+    cout<<"Update "<<c<<" to the file"<<endl;
     fstream out;
-    cout<<"Write all info to the file..."<<endl;
+    cout<<"Write all info to the file..."<<endl<<endl;
     out.open("Information.txt",ios::out|ios::binary);
     if(!out.fail()) {
        out.write(reinterpret_cast<char *>(infor),sizeof(Info)*getNInf()); 
