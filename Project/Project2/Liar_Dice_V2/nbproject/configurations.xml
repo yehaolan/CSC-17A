@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>AI.h</itemPath>
+      <itemPath>AbsPlayer.h</itemPath>
       <itemPath>GeneralHashFunctions.h</itemPath>
       <itemPath>Info.h</itemPath>
       <itemPath>Player.h</itemPath>
@@ -48,6 +49,8 @@
       </item>
       <item path="AI.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="AbsPlayer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="GeneralHashFunctions.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GeneralHashFunctions.h" ex="false" tool="3" flavor2="0">
@@ -86,6 +89,8 @@
       <item path="AI.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="AI.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AbsPlayer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="GeneralHashFunctions.cpp" ex="false" tool="1" flavor2="0">
       </item>

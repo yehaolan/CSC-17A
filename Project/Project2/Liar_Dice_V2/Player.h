@@ -10,8 +10,8 @@
 
 #include "Info.h"
 #include "aVector.h"
-
-class Player {
+#include "AbsPlayer.h"
+class Player:public AbsPlayer {
     private:
         Info info;//save the information about players
     protected:
