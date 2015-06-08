@@ -8,16 +8,18 @@
 #ifndef PLAYER_H
 #define	PLAYER_H
 
+//User libraries
 #include "Info.h"
 #include "aVector.h"
 #include "AbsPlayer.h"
+
 class Player:public AbsPlayer {
     private:
         Info info;//save the information about players
     protected:
         int order; //0 is player, 1 is AI#1, 2 is AI#2
         aVector<char> dices; //dices of player
-        aVector<char> rolDice(int);//roll dice
+        aVector<char> rolDice(int);//roll dice  
         static int open;// -1 is not open, 0 is player open, 1 is AI#1 open,2 is AI#2 open
         static int numPlyr;//number of player
         static int numCd;//number of dice called
@@ -34,7 +36,7 @@ class Player:public AbsPlayer {
         bool validCC(string,int);//function that valid card number
     public: 
         Player();//Constructor
-        //~Player();//Destructor
+        ~Player();//Destructor
         void init();//initialize the variables of the game
         void chalng();//player challenge
         void bid();//player bid

@@ -32,11 +32,8 @@ Player::Player() {
 }
 
 //Destructor
-/*
 Player::~Player() {
-    delete []dices;//deallocate memory
 }
-*/
 
 //roll the dice
 void Player::roll() {
@@ -321,7 +318,7 @@ void Player::setNInf(int num) {
 
 //print out the dices
 void Player::pntDice() {
-    cout<<"Player: ";
+    cout<<"Yours: ";
     for(int i=0;i<5;i++) {
         cout<<dices[i]<<" ";
     }

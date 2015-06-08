@@ -19,6 +19,7 @@ class AI:public Player {
         char getMtFr();//get the most frequent face of dice in the dices
     public:
         AI();
+        ~AI();
         int getNAI() const {return numAI;} //get the number of AI in the game
         //there is no destructor in AI class because its dices will be deallocate by the destructor of Player class
         void chalng(); //AI challenge

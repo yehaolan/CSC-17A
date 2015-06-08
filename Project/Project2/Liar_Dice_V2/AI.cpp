@@ -28,6 +28,10 @@ AI::AI() {
     nExist=gtNtEs();
 }
 
+//Destructor
+AI::~AI() {
+}
+
 void AI::reset() {
     numAI=0;
 }
@@ -209,8 +213,3 @@ void AI::pntDice() {
     }
     cout<<endl;
 }
-/*
-void AI::operator =(const AI& right) {
-    dices=right.getDice();
-}
- * */

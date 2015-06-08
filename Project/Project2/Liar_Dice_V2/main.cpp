@@ -23,8 +23,7 @@ using namespace std;
 //Function prototypes
 void result(Player &,int,AI *);//Determine who win and lost
 int  getNP();//Prompt for the number of player
-void destryAI(AI *,int);//destroy AIs
-void destryPl(Player);
+void destryAI(AI *);//destroy AIs
 //void destryPl(Player);//destroy player
 //Player *cretPyr(int);//create player and roll dice
 
@@ -87,7 +86,7 @@ int main(int argc, char** argv) {
                 temp=0;
             } while(p1.getOpen()==-1);
             result(p1,np-1,a);
-            destryAI(a,np-1);
+            destryAI(a);
         }
         if(ans!='3') {
             cout<<"Click Enter to continue...";
@@ -175,14 +174,8 @@ void result(Player &p,int numAI,AI *a) {
 }
 
 //deallocate memory
-void destryAI(AI *a,int n) {
-    for(int i=0;i<n;i++) {
-        delete []a[i].getDice().getAptr();
-    }
+void destryAI(AI *a) {
     delete []a;
 }
 
-void destryPl(Player p)  {
-    delete []p.getDice().getAptr();
-}
 
