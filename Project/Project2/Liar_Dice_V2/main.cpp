@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
     char ans;
     Player p1;
     p1.init();
-    
+    AI *a=nullptr;
     do {
         Player::reset();
         AI::reset();
@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
             p1.addCoin();
         }else if(ans=='1') {
             int np=getNP();//ask number of player
-            AI *a=new AI[np-1];
+            a=new AI[np-1];
             Player::setNumC();
             int temp=rand()%np;//randomly select who is the first to bid
             //show your dice
@@ -86,7 +86,10 @@ int main(int argc, char** argv) {
                 temp=0;
             } while(p1.getOpen()==-1);
             result(p1,np-1,a);
-            destryAI(a);
+            //delete the aVector of AIs
+            for(int i=0;i<np-1;i++)
+                a[i].destVec();
+            delete []a;
         }
         if(ans!='3') {
             cout<<"Click Enter to continue...";
@@ -94,9 +97,10 @@ int main(int argc, char** argv) {
             cin.ignore();
         }
     } while(ans!='3');
-    cout<<"Now player #1 has "<<p1.getCoin()<<" coins "<<endl;
+    cout<<"Now you has has "<<p1.getCoin()<<" coins "<<endl;
     p1.renewFl(p1.getName(),p1.getCoin());
-    
+    //delete aVector of player
+    p1.destVec();
     //Exit stage right
     return 0;
 }

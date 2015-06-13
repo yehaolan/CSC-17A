@@ -58,6 +58,7 @@ class Player:public AbsPlayer {
         void setCoin(int c) {info.coin=c;}//set player's coin
         void setInfo(string,string,string);//set the info
         void addCoin();//add the coins by using credit card
+        void destVec();//destroy the vector of the class
         unsigned int getPW() const {return info.pw;}//get password
         //getter for member variables
         int  getOrdr() const {return order;}//get the order

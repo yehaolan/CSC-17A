@@ -24,8 +24,12 @@ class aVector {
        
     public:
        // Default constructor
-       aVector() { aptr = 0; actSize=usdSize = 0;}
-       
+       aVector() { 
+           actSize = 1;
+           usdSize = 0;
+           aptr=new T[actSize];
+       }
+       T *getPtr() const {return aptr;}
        // Constructor declaration
        aVector(int);
        
@@ -44,6 +48,8 @@ class aVector {
        // Overloaded [] operator declaration
        T &operator[](const int &);
        void push(T);
+       void pop_back();
+       //aVector<T>& operator =(aVector<T>&);
 };
 
 
@@ -86,8 +92,6 @@ aVector<T>::aVector(const aVector &obj) {
 // Destructor
 template <class T>
 aVector<T>::~aVector() {
-   if (usdSize > 0)
-      delete [] aptr;
 }
 
 //push function
@@ -110,6 +114,25 @@ void aVector<T>::push(T o) {
     } else {
        aptr[usdSize]=o;
        usdSize++;
+    }
+}
+
+template <class T>
+void aVector<T>::pop_back() {
+    if(usdSize==0) {
+        subError();
+    } else {
+        T* arr=new T[actSize];
+        if(arr==0) memError();
+        for(int i=0;i<usdSize-1;i++) {
+            arr[i]=aptr[i];
+        }
+        for(int i=usdSize-1;i<actSize;i++) {
+            arr[i]=0;
+        }
+        usdSize--;
+        delete []aptr;
+        aptr=arr;
     }
 }
 
@@ -149,5 +172,27 @@ T &aVector<T>::operator[](const int &sub) {
       subError();
    return aptr[sub];
 }
+
+/*
+template <class T>
+aVector<T>& aVector<T>::operator =(aVector<T>& right) {
+    
+    delete []aptr;
+    aptr=new T[right.size()];
+    for(int i=0;i<right.size();i++) {
+        aptr[i]=right.getElementAt(i);
+    }
+    
+    cout<<"aaaa"<<endl;
+    delete []aptr;
+    usdSize=right.size();
+    aptr=new T[usdSize];
+    for(int i=0;i<right.size();i++) {
+        this->aptr[i]=right.getElementAt(i);
+        
+    }
+    return *this;
+}
+*/
 
 #endif

@@ -33,6 +33,7 @@ Player::Player() {
 
 //Destructor
 Player::~Player() {
+    //delete []dices;
 }
 
 //roll the dice
@@ -111,6 +112,10 @@ void Player::addCoin() {
     //renew
     renewFl(getName(),getCoin());
     cout<<"Now, you have "<<getCoin()<<" gaming coins"<<endl;
+}
+
+void Player::destVec() {
+    delete []dices.getPtr();
 }
 
 //verify the card number by Luhn algorithm
@@ -275,7 +280,7 @@ void Player::renewFl(string n,int c) {
     }
     cout<<"Write all info to the file..."<<endl<<endl;
     out.close();
-    
+    delete []infor;
 }
 
 //set the info
@@ -318,7 +323,7 @@ void Player::setNInf(int num) {
 
 //print out the dices
 void Player::pntDice() {
-    cout<<"Yours: ";
+    cout<<"Yours:  ";
     for(int i=0;i<5;i++) {
         cout<<dices[i]<<" ";
     }
@@ -366,7 +371,7 @@ void Player::chalng() {
 
 //player bid
 void Player::bid() {
-    cout<<"The previous player is "<<getLBdr()<<endl;
+    //cout<<"The previous player is "<<getLBdr()<<endl;
     //declare variable
     string bStr;//string that player input
     //temp variables of number of dice, face, and wild

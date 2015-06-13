@@ -21,7 +21,7 @@ int AI::numAI=0; //initialize the static variable
 
 //Constructor
 AI::AI() {
-    //cout<<"AI constructor!!!"<<endl;
+    //cout<<"Here is AI constructor!!!"<<endl;
     dices=rolDice(5);
     order=++numAI;
     exist=gtEs();
@@ -39,7 +39,7 @@ void AI::reset() {
 //AI bid
 void AI::bid() {
     //bid
-    cout<<"The previous player is "<<getLBdr()<<endl;
+    //cout<<"The previous player is "<<getLBdr()<<endl;
     if(open==-1) {
         char faceTem;
         int numTem=numCd;
